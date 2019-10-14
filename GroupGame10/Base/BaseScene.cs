@@ -10,12 +10,15 @@ namespace GroupGame10.Base
     abstract class BaseScene 
     {
         public string Name { get; protected set; }
+        public bool IsEndFlag { get => isEndFlag; set => isEndFlag = value; }
+
+        private bool isEndFlag=false;
 
         public abstract void Update(GameTime gameTime);
 
         public abstract void Draw(RenderManager render);
 
         public abstract void Inilized();
-
+        public abstract ScenceManager.Scence Next();
     }
 }

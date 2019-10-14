@@ -12,12 +12,15 @@ namespace GroupGame10
     {
         public Item(string name,Vector2 position ,Point size)
         {
+            Size = size;
+            Name = name;
+            Position = position;
         }
         public Item(Item other)
         {
-            this.Size = other.Size;
-            this.Name = other.Name;
-            this.Position = other.Position;
+            Size = other.Size;
+            Name = other.Name;
+            Position = other.Position;
         }
         public object Clone()
         {
@@ -31,6 +34,10 @@ namespace GroupGame10
         public override void Update(GameTime gameTime)
         {
            
+        }
+        public override void Hit(BaseEntity other)
+        {
+
         }
     }
 }

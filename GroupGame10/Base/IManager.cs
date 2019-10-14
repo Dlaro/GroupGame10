@@ -9,6 +9,6 @@ namespace GroupGame10.Base
     
     interface IManager
     {
-        
+        void ClearList();
     }
 }

@@ -10,6 +10,10 @@ namespace GroupGame10.GameSystem
     class PhysicsManager : GameComponent, IManager
     {
         List<BaseEntity> entities;
+        List<Block> blockList;
+        List<Enemy> enemyList;
+        List<Item> itemList;
+        List<List<BaseEntity>> mapList;
         public PhysicsManager(Game game) : base(game)
         {
         }
@@ -29,6 +33,11 @@ namespace GroupGame10.GameSystem
         public void Add(BaseEntity entity)
         {
             entities.Add(entity);
+        }
+
+        public void ClearList()
+        {
+            
         }
     }
 }

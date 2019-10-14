@@ -12,43 +12,87 @@ using GroupGame10.Base;
 
 namespace GroupGame10.GameSystem
 {
-    class RenderManager : DrawableGameComponent,IManager
+    class RenderManager : DrawableGameComponent, IManager
     {
         private List<BaseEntity> entities;
+        private List<List<BaseEntity>> mapList;
+        private List<BackGround> backGrounds;
         private Game game;
         private SpriteBatch spriteBatch;
         private Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
         private ContentManager contentManager;
+        private Vector2 camera;
+        Player player;
+
+        internal List<BaseEntity> Entities { get => entities; set => entities = value; }
+        internal List<List<BaseEntity>> MapList { get => mapList; set => mapList = value; }
+        internal List<BackGround> BackGrounds { get => backGrounds; set => backGrounds = value; }
+
         public RenderManager(Game game) : base(game)
         {
-            entities = new List<BaseEntity>();
+            Entities = new List<BaseEntity>();
             this.game = game;
             contentManager = game.Content;
             spriteBatch = new SpriteBatch(game.GraphicsDevice);
+            camera = new Vector2();
+            BackGrounds = new List<BackGround>();
+            MapList = new List<List<BaseEntity>>();
+
         }
         public override void Initialize()
         {
+           
+
             base.Initialize();
         }
 
         public override void Update(GameTime gameTime)
         {
+            BackGrounds.ForEach(bg => bg.Update(gameTime));
+            if (player is null) return;
+            camera = player.Position - new Vector2(256, 0);
+           
+
+
             base.Update(gameTime);
         }
         public override void Draw(GameTime gameTime)
         {
-            if (entities is null) return;
+           
             spriteBatch.Begin();
-            foreach(var e in entities)
+          if(!(BackGrounds is null))  BackGrounds.ForEach(bg => DrawTexture(bg.Name, bg.Position));
+            foreach (var list in MapList)
             {
-              DrawTexture(e.Name, e.Rectangle);
+                foreach (var a in list)
+                {
+                    DrawTexture(a.Name, a.Rectangle);
+                }
             }
+            if (!(Entities is null))
+            {
+                foreach (var e in Entities)
+                {
+                    DrawTexture(e.Name, e.Rectangle);
+                }
+            }
+          if(!(player is null))  spriteBatch.Draw(textures["player"], destinationRectangle: new Rectangle((int)(player.Rectangle.X-camera.X+32), player.Rectangle.Y+32, player.Rectangle.Width, player.Rectangle.Height), origin: new Vector2(24, 24), rotation: player.Rotation);
+          // DrawTexture("block", player.Rectangle);
             spriteBatch.End();
             base.Draw(gameTime);
         }
+
+        public void AddMap(List<List<BaseEntity>> map)
+        {
+
+            MapList = map;
+
+
+
+        }
         public void Add(BaseEntity entity)
         {
-            entities.Add(entity);
+            if (entity is Player) { player = (Player)entity; return; }
+            Entities.Add(entity);
         }
         public void LoadContent(string assetName, string filepath = "./")
         {
@@ -91,7 +135,7 @@ namespace GroupGame10.GameSystem
                 textures.ContainsKey(assetName),
                 "描画時にアセット名の指定を間違えたか、" +
                 "画像の読み込み自体できていません");
-
+            rectangle.X = rectangle.X - (int)camera.X;
             spriteBatch.Draw(textures[assetName], rectangle, Color.White * alpha);
         }
         /// <summary>
@@ -173,6 +217,14 @@ namespace GroupGame10.GameSystem
             spriteBatch.Draw(textures[assetName], position, color * alpha);
         }
         #endregion  画像の描画
+        public void ClearList()
+        {
+            BackGrounds.Clear();
+            MapList.Clear();
+            Entities.Clear();
+            player = null;
+        }
+     
 
     }
 }

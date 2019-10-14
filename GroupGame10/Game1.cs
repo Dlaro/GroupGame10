@@ -17,7 +17,7 @@ namespace GroupGame10
     {
         // フィールド（このクラスの情報を記述）
         private GraphicsDeviceManager graphicsDeviceManager;//グラフィックスデバイスを管理するオブジェクト
-        private SpriteBatch spriteBatch;//画像をスクリーン上に描画するためのオブジェクト
+      
 
         private RenderManager renderManager;
         private MapManager mapManager;
@@ -72,8 +72,13 @@ namespace GroupGame10
 
 
             // この下にロジックを記述
-
+            mapManager.Load("map.csv");
             renderManager.LoadContent("player");
+            renderManager.LoadContent("block");
+            renderManager.LoadContent("enemy");
+            renderManager.LoadContent("item");
+            renderManager.LoadContent("bg1");
+            renderManager.LoadContent("bg2");
             // この上にロジックを記述
         }
 
