@@ -9,36 +9,39 @@ using Microsoft.Xna.Framework;
 
 namespace GroupGame10
 {
-    class Block : BaseEntity,ICloneable
+    class Enemy : BaseEntity,ICloneable
     {
-        public Block(string name,Vector2 position,Point size) 
+        public Enemy(string name,Vector2 position,Point size)
         {
             Size = size;
             Name = name;
             Position = position;
-
-
         }
-        public Block(Block other)
+
+        public Enemy(Enemy other)
         {
-            this.Size = other.Size;
-            this.Name = other.Name;
-            this.Position = other.Position;
-        }
+           this.Size = other.Size;
+           this.Name = other.Name;
+           this.Position = other.Position;
 
+        }
         public object Clone()
         {
-            return new Block(this);
+            return new Enemy(this);
         }
 
         public override void Inilized()
         {
-            throw new NotImplementedException();
+
         }
 
         public override void Update(GameTime gameTime)
         {
-            throw new NotImplementedException();
+
+        }
+        public override void Hit(BaseEntity other)
+        {
+
         }
     }
 }

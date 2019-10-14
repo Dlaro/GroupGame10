@@ -12,15 +12,15 @@ namespace GroupGame10.Base
     {
 
         protected Vector2 velocity;
+      
         public string Name { get; protected set; }
         private Vector2 position;
-        public Vector2 Position
+        public virtual  Vector2 Position
         {
             get => position;
             set
             {
-                if (value.Y > 768) { value.Y = 768; velocity = Vector2.Zero; }
-                if (value.Y < 0) { value.Y = 0; velocity = Vector2.Zero; }
+                
                 position = value;
                 Rectangle = new Rectangle((int)value.X - Size.X / 2, (int)value.Y - Size.Y / 2, Size.X, Size.Y);
             }
@@ -33,6 +33,8 @@ namespace GroupGame10.Base
         public abstract void Update(GameTime gameTime);
 
         public abstract void Inilized();
+
+        public abstract void Hit(BaseEntity other);
 
 
        

@@ -17,6 +17,11 @@ namespace GroupGame10.GameSystem
         {
 
         }
+
+        public void ClearList()
+        {
+        }
+
         public override void Initialize()
         {
             base.Initialize();
