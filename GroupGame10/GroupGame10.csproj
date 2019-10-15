@@ -52,7 +52,6 @@
     <Compile Include="Base\IManager.cs" />
     <Compile Include="GamePlay01.cs" />
     <Compile Include="GamePlay02.cs" />
-    <Compile Include="GameSystem\InputManager.cs" />
     <Compile Include="GameSystem\MapManager.cs" />
     <Compile Include="GameSystem\RenderManager.cs" />
     <Compile Include="GameSystem\PhysicsManager.cs" />

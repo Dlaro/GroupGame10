@@ -37,7 +37,7 @@ namespace GroupGame10
         }
         public override void Hit(BaseEntity other)
         {
-
+            IsDeadFlag = true;
         }
     }
 }

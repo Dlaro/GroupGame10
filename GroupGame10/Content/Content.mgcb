@@ -61,6 +61,12 @@
 /processorParam:TextureFormat=Color
 /build:enemy.png
 
+#begin GamePlay01.csv
+/copy:GamePlay01.csv
+
+#begin GamePlay02.csv
+/copy:GamePlay02.csv
+
 #begin item.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -72,9 +78,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:item.png
-
-#begin map.csv
-/copy:map.csv
 
 #begin player.png
 /importer:TextureImporter

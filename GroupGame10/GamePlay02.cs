@@ -35,8 +35,7 @@ namespace GroupGame10
             mapManager.ClearList();
             player = new Player();
             renderManager.Add(player);
-            spriteManager.Add(player);
-            renderManager.MapList = mapManager.MapList;
+            renderManager.MapList = mapManager.MapLists["GamePlay02.csv"];
             renderManager.BackGrounds.Add(new BackGround("bg1", new Vector2(1024, 0), new Vector2(-2, 0)));
             renderManager.BackGrounds.Add(new BackGround("bg1", Vector2.Zero, new Vector2(-2, 0)));
             renderManager.BackGrounds.Add(new BackGround("bg2", Vector2.Zero, new Vector2(-1, 0)));
@@ -53,7 +52,24 @@ namespace GroupGame10
 
         public override void Update(GameTime gameTime)
         {
+            Hit();
+            player.Update(gameTime);
             if (Input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F)) IsEndFlag = true;
+            foreach (var list in mapManager.MapLists["GamePlay02.csv"])
+            {
+                list.RemoveAll(a => a.IsDeadFlag);
+            }
+        }
+        private void Hit()
+        {
+            foreach(var list in mapManager.MapLists["GamePlay02.csv"])
+            {
+                foreach(var c in list)
+                {
+                    if(c.Rectangle.Intersects(player.Rectangle))
+                    player.Hit(c);
+                }
+            }
         }
     }
 }

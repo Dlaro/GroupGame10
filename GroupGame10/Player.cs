@@ -57,7 +57,7 @@ namespace GroupGame10
         {
             if (Input.GetKeyState(Keys.Space)) currentState = State.Dive;
             if (Input.IsKeyUp(Keys.Space)) currentState = State.Rise;
-            if (Position.Y < line-32) currentState = State.Air;
+            if (Position.Y < line - 32) currentState = State.Air;
             if (currentState == State.Air && Position.Y > line) currentState = State.Surface;
             switch (currentState)
             {
@@ -77,13 +77,27 @@ namespace GroupGame10
 
                     break;
             }
-            Rotation = (float)Math.Atan2((double)velocity.Y, (double)velocity.X)/2;
+            Rotation = (float)Math.Atan2((double)velocity.Y, (double)velocity.X) / 2;
             Position += velocity;
         }
 
         public override void Hit(BaseEntity other)
         {
-            if (other is Block) HitBlock(other as Block);
+            switch  (other)
+            {
+                case Block a:
+                    IsDeadFlag = true;
+                    
+                    break;
+                case Enemy b:
+                    b.Hit(this);
+                    break;
+                case Item c:
+                    c.Hit(this);
+                    break;
+                default:
+                    return;
+            }
         }
         private void HitBlock(Block block)
         {

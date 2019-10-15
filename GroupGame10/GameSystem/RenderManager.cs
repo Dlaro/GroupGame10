@@ -81,14 +81,7 @@ namespace GroupGame10.GameSystem
             base.Draw(gameTime);
         }
 
-        public void AddMap(List<List<BaseEntity>> map)
-        {
 
-            MapList = map;
-
-
-
-        }
         public void Add(BaseEntity entity)
         {
             if (entity is Player) { player = (Player)entity; return; }
@@ -220,8 +213,10 @@ namespace GroupGame10.GameSystem
         public void ClearList()
         {
             BackGrounds.Clear();
-            MapList.Clear();
+            
             Entities.Clear();
+
+            MapList= new List<List<BaseEntity>>();
             player = null;
         }
      

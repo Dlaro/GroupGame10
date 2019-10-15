@@ -15,16 +15,19 @@ namespace GroupGame10.GameSystem
         List<Enemy> enemyList;
         List<Item> itemList;
         List<List<BaseEntity>> mapList;
+        Dictionary<string, List<List<BaseEntity>>> mapLists;
         Dictionary<string, ICloneable> entityDict ;
         CSVreader reader;
         Player player;
 
         internal List<List<BaseEntity>> MapList { get => mapList;private set => mapList = value; }
+        internal Dictionary<string, List<List<BaseEntity>>> MapLists { get => mapLists; set => mapLists = value; }
 
         public MapManager(Game game) : base(game)
         {
             enemyList = new List<Enemy>();
             MapList = new List<List<BaseEntity>>();
+            MapLists = new Dictionary<string, List<List<BaseEntity>>>();
             itemList = new List<Item>();
             blockList = new List<Block>();
             entityDict = new Dictionary<string, ICloneable>();
@@ -48,10 +51,7 @@ namespace GroupGame10.GameSystem
         {
             base.Update(gameTime);
         }
-        public List<List<BaseEntity>> GetMap()
-        {
-            return MapList;
-        }
+
 
         private List<BaseEntity> Add(int lineCnt, string[] line)
           
@@ -87,7 +87,7 @@ namespace GroupGame10.GameSystem
 
         public void Load(string filename, string path = "./")
         {
-
+            MapList = new List<List<BaseEntity>>();
             CSVreader cSVreader = new CSVreader();
             cSVreader.Read(filename, path);
             var data = cSVreader.GetData();
@@ -96,6 +96,7 @@ namespace GroupGame10.GameSystem
             {
                 MapList.Add(Add(linCnt, data[linCnt]));
             }
+            MapLists.Add(filename, MapList);
         }
 
         public void ClearList()
