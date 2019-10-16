@@ -54,7 +54,7 @@ namespace GroupGame10
             Components.Add(mapManager);
             spriteManager = new PhysicsManager(this);
             Components.Add(spriteManager);
-
+            
             scenceManager = new ScenceManager(this);
             Components.Add(scenceManager);
 
@@ -112,6 +112,11 @@ namespace GroupGame10
 
             // この下に更新ロジックを記述
             Input.Update();
+            if (Input.IsKeyDown(Keys.Enter))
+            {
+                scenceManager.Enabled = true;
+                scenceManager.Initialize();
+            }
             // この上にロジックを記述
             base.Update(gameTime); // 親クラスの更新処理呼び出し。絶対に消すな！！
         }

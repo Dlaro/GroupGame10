@@ -61,6 +61,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GameSystem\ScenceManager.cs" />
+    <Compile Include="Sea.cs" />
     <Compile Include="Title.cs" />
     <Compile Include="Unity\CountDownTimer.cs" />
     <Compile Include="Unity\CountUpTimer.cs" />

@@ -48,7 +48,7 @@ namespace GroupGame10.GameSystem
 
         public override void Update(GameTime gameTime)
         {
-            BackGrounds.ForEach(bg => bg.Update(gameTime));
+           
             if (player is null) return;
             camera = player.Position - new Vector2(256, 0);
            
@@ -59,7 +59,7 @@ namespace GroupGame10.GameSystem
         public override void Draw(GameTime gameTime)
         {
            
-            spriteBatch.Begin();
+            spriteBatch.Begin(blendState: BlendState.AlphaBlend);
           if(!(BackGrounds is null))  BackGrounds.ForEach(bg => DrawTexture(bg.Name, bg.Position));
             foreach (var list in MapList)
             {
@@ -72,6 +72,7 @@ namespace GroupGame10.GameSystem
             {
                 foreach (var e in Entities)
                 {
+                    if (e.IsDeadFlag) return;
                     DrawTexture(e.Name, e.Rectangle);
                 }
             }

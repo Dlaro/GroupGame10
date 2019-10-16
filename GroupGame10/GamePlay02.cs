@@ -15,9 +15,10 @@ namespace GroupGame10
         RenderManager renderManager;
         MapManager mapManager;
         Player player;
+        Game game;
         public GamePlay02(Game game)
         {
-
+            this.game = game;
             renderManager = (RenderManager)game.Components.First(b => b is RenderManager);
             spriteManager = (PhysicsManager)game.Components.First(b => b is PhysicsManager);
             mapManager = (MapManager)game.Components.First(b => b is MapManager);
@@ -35,7 +36,7 @@ namespace GroupGame10
             mapManager.ClearList();
             player = new Player();
             renderManager.Add(player);
-            renderManager.MapList = mapManager.MapLists["GamePlay02.csv"];
+             (renderManager.MapList )= mapManager.MapLists["GamePlay02.csv"];
             renderManager.BackGrounds.Add(new BackGround("bg1", new Vector2(1024, 0), new Vector2(-2, 0)));
             renderManager.BackGrounds.Add(new BackGround("bg1", Vector2.Zero, new Vector2(-2, 0)));
             renderManager.BackGrounds.Add(new BackGround("bg2", Vector2.Zero, new Vector2(-1, 0)));
@@ -54,10 +55,13 @@ namespace GroupGame10
         {
             Hit();
             player.Update(gameTime);
+            renderManager.BackGrounds.ForEach(a => a.Update(gameTime));
             if (Input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F)) IsEndFlag = true;
-            foreach (var list in mapManager.MapLists["GamePlay02.csv"])
+
+            if (player.IsDeadFlag)
             {
-                list.RemoveAll(a => a.IsDeadFlag);
+                ScenceManager sM= (ScenceManager)game.Components.First(b => b is ScenceManager);
+                sM.Enabled = false;
             }
         }
         private void Hit()

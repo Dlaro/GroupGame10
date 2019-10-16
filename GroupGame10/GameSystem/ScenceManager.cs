@@ -25,11 +25,12 @@ namespace GroupGame10.GameSystem
             scences.Add(Scence.GamePlay02, new GamePlay02(game));
             scences.Add(Scence.Title, new Title(game));
             scences.Add(Scence.Ending, new Ending(game));
+            CurrentSence = scences[Scence.Title];
         }
         public override void Initialize()
         {
 
-            CurrentSence = scences[Scence.Title];
+            
             CurrentSence.Inilized();
             base.Initialize();
         }

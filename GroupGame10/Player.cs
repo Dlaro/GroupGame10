@@ -45,7 +45,7 @@ namespace GroupGame10
             Name = "player";
             Size = new Point(64, 64);
             Position = new Vector2(256, line);
-            velocity = new Vector2(2, 0);
+            velocity = new Vector2(10, 0);
         }
 
         public override void Inilized()
