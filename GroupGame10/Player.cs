@@ -38,14 +38,14 @@ namespace GroupGame10
                 base.Position = value;
             }
         }
-        int line = 0;
+        int line;
         public Player()
         {
-            line = 484;
+            line = 416;
             Name = "player";
             Size = new Point(64, 64);
             Position = new Vector2(256, line);
-            velocity = new Vector2(10, 0);
+            velocity = new Vector2(5, 0);
         }
 
         public override void Inilized()
@@ -83,17 +83,20 @@ namespace GroupGame10
 
         public override void Hit(BaseEntity other)
         {
-            switch  (other)
+            switch (other)
             {
                 case Block a:
-                    IsDeadFlag = true;
-                    
+                   // IsDeadFlag = true;
+
                     break;
                 case Enemy b:
                     b.Hit(this);
                     break;
                 case Item c:
                     c.Hit(this);
+                    break;
+                case Sea d:
+                    d.Hit(this);
                     break;
                 default:
                     return;
