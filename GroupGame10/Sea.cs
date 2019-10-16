@@ -9,30 +9,30 @@ using Microsoft.Xna.Framework;
 
 namespace GroupGame10
 {
-    class Enemy : BaseEntity,ICloneable
+    class Sea : BaseEntity, ICloneable
     {
-        public Enemy(string name,Vector2 position,Point size)
+        public Sea(string name, Vector2 position, Point size)
         {
             Size = size;
             Name = name;
             Position = position;
-        }
 
-        public Enemy(Enemy other)
+
+        }
+        public Sea(Sea other)
         {
-           this.Size = other.Size;
-           this.Name = other.Name;
-           this.Position = other.Position;
-
+            this.Size = other.Size;
+            this.Name = other.Name;
+            this.Position = other.Position;
         }
+
         public object Clone()
         {
-            return new Enemy(this);
+            return new Sea(this);
         }
 
         public override void Inilized()
         {
-
         }
 
         public override void Update(GameTime gameTime)
@@ -41,7 +41,7 @@ namespace GroupGame10
         }
         public override void Hit(BaseEntity other)
         {
-            IsDeadFlag = true;
+
         }
     }
 }

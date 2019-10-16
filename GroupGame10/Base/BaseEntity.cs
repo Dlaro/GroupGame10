@@ -12,7 +12,8 @@ namespace GroupGame10.Base
     {
 
         protected Vector2 velocity;
-      
+
+        private bool isDeadFlag;
         public string Name { get; protected set; }
         private Vector2 position;
         public virtual  Vector2 Position
@@ -29,6 +30,7 @@ namespace GroupGame10.Base
         public Rectangle Rectangle { get; set; }
 
         public Point Size { get; protected set; }
+        public bool IsDeadFlag { get => isDeadFlag; set => isDeadFlag = value; }
 
         public abstract void Update(GameTime gameTime);
 

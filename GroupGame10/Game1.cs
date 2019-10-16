@@ -54,7 +54,7 @@ namespace GroupGame10
             Components.Add(mapManager);
             spriteManager = new PhysicsManager(this);
             Components.Add(spriteManager);
-
+            
             scenceManager = new ScenceManager(this);
             Components.Add(scenceManager);
 
@@ -72,13 +72,23 @@ namespace GroupGame10
 
 
             // この下にロジックを記述
-            mapManager.Load("map.csv");
+            mapManager.Load("GamePlay01.csv");
+            mapManager.Load("GamePlay02.csv");
             renderManager.LoadContent("player");
             renderManager.LoadContent("block");
             renderManager.LoadContent("enemy");
             renderManager.LoadContent("item");
             renderManager.LoadContent("bg1");
             renderManager.LoadContent("bg2");
+            renderManager.LoadContent("100");
+            renderManager.LoadContent("110");
+            renderManager.LoadContent("200");
+            renderManager.LoadContent("210");
+            renderManager.LoadContent("211");
+            renderManager.LoadContent("220");
+            renderManager.LoadContent("310");
+            renderManager.LoadContent("320");
+
             // この上にロジックを記述
         }
 
@@ -110,6 +120,11 @@ namespace GroupGame10
 
             // この下に更新ロジックを記述
             Input.Update();
+            if (Input.IsKeyDown(Keys.Enter))
+            {
+                scenceManager.Enabled = true;
+                scenceManager.Initialize();
+            }
             // この上にロジックを記述
             base.Update(gameTime); // 親クラスの更新処理呼び出し。絶対に消すな！！
         }

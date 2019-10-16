@@ -38,14 +38,14 @@ namespace GroupGame10
                 base.Position = value;
             }
         }
-        int line = 0;
+        int line;
         public Player()
         {
-            line = 484;
+            line = 416;
             Name = "player";
             Size = new Point(64, 64);
             Position = new Vector2(256, line);
-            velocity = new Vector2(2, 0);
+            velocity = new Vector2(5, 0);
         }
 
         public override void Inilized()
@@ -57,7 +57,7 @@ namespace GroupGame10
         {
             if (Input.GetKeyState(Keys.Space)) currentState = State.Dive;
             if (Input.IsKeyUp(Keys.Space)) currentState = State.Rise;
-            if (Position.Y < line-32) currentState = State.Air;
+            if (Position.Y < line - 32) currentState = State.Air;
             if (currentState == State.Air && Position.Y > line) currentState = State.Surface;
             switch (currentState)
             {
@@ -77,13 +77,30 @@ namespace GroupGame10
 
                     break;
             }
-            Rotation = (float)Math.Atan2((double)velocity.Y, (double)velocity.X)/2;
+            Rotation = (float)Math.Atan2((double)velocity.Y, (double)velocity.X) / 2;
             Position += velocity;
         }
 
         public override void Hit(BaseEntity other)
         {
-            if (other is Block) HitBlock(other as Block);
+            switch (other)
+            {
+                case Block a:
+                   // IsDeadFlag = true;
+
+                    break;
+                case Enemy b:
+                    b.Hit(this);
+                    break;
+                case Item c:
+                    c.Hit(this);
+                    break;
+                case Sea d:
+                    d.Hit(this);
+                    break;
+                default:
+                    return;
+            }
         }
         private void HitBlock(Block block)
         {
