@@ -23,10 +23,13 @@ namespace GroupGame10
         private static MouseState currentMouse;//現在のマウスの状態
         private static MouseState previousMouse;//1フレーム前のマウスの状態
 
+        //timer
+        private static TimeSpan preiousTime=TimeSpan.Zero;
+        private static TimeSpan currentTime= TimeSpan.Zero;
         /// <summary>
         /// 更新
         /// </summary>
-        public static void Update()
+        public static void Update(GameTime gameTime)
         {
             //キーボード
             previousKey = currentKey;
