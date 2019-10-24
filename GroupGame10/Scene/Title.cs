@@ -29,11 +29,7 @@ namespace GroupGame10
 
         }
 
-        public override ScenceManager.Scence Next()
-        {
-            return ScenceManager.Scence.GamePlay01;
-        }
-
+   
         public override void Update(GameTime gameTime)
         {
             if (Input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F)) IsEndFlag = true;

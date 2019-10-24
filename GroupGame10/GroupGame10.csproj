@@ -53,8 +53,6 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Base\IManager.cs" />
     <Compile Include="Scene\GamaPlay.cs" />
-    <Compile Include="Scene\GamePlay01.cs" />
-    <Compile Include="Scene\GamePlay02.cs" />
     <Compile Include="GameSystem\MapManager.cs" />
     <Compile Include="GameSystem\RenderManager.cs" />
     <Compile Include="GameSystem\PhysicsManager.cs" />
@@ -66,6 +64,7 @@
     <Compile Include="GameSystem\ScenceManager.cs" />
     <Compile Include="Sea.cs" />
     <Compile Include="Scene\Title.cs" />
+    <Compile Include="Setting.cs" />
     <Compile Include="Unity\CountDownTimer.cs" />
     <Compile Include="Unity\CountUpTimer.cs" />
     <Compile Include="Unity\CSVreader.cs" />

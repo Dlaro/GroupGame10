@@ -27,11 +27,20 @@ namespace GroupGame10.GameSystem
             entities = new List<BaseEntity>();
             MapList = new List<List<BaseEntity>>();
             player = null;
+            
             base.Initialize();
         }
 
         public override void Update(GameTime gameTime)
         {
+            if (player != null)
+            {
+                if (player.IsDeadFlag)
+                {
+                    Enabled = false;
+                    return;
+                }
+            }
             if (entities != null)  entities.ForEach(b => b.Update(gameTime));
             if(mapList != null)
             {
@@ -48,14 +57,7 @@ namespace GroupGame10.GameSystem
             {
                 list.RemoveAll(a => a.IsDeadFlag);
             }
-            if (player != null)
-            {
-                if (player.IsDeadFlag)
-                {
-                    //Enabled = false;
 
-                }
-            }
             base.Update(gameTime);
         }
 
@@ -70,6 +72,7 @@ namespace GroupGame10.GameSystem
         public void ClearList()
         {
             Initialize();
+            Enabled = false;
         }
     }
 }

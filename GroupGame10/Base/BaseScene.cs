@@ -20,6 +20,6 @@ namespace GroupGame10.Base
 
         public abstract void Draw(RenderManager renderManager);
         public abstract void Inilized();
-        public abstract ScenceManager.Scence Next();
+
     }
 }

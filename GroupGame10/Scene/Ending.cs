@@ -25,10 +25,7 @@ namespace GroupGame10
             
         }
 
-        public override ScenceManager.Scence Next()
-        {
-            return ScenceManager.Scence.Title;
-        }
+
 
         public override void Update(GameTime gameTime)
         {

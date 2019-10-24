@@ -72,22 +72,15 @@ namespace GroupGame10
 
 
             // この下にロジックを記述
-            mapManager.Load("GamePlay01.csv");
-            mapManager.Load("GamePlay02.csv");
-            renderManager.LoadContent("player");
-            renderManager.LoadContent("block");
-            renderManager.LoadContent("enemy");
-            renderManager.LoadContent("item");
-            renderManager.LoadContent("bg1");
-            renderManager.LoadContent("bg2");
-            renderManager.LoadContent("100");
-            renderManager.LoadContent("110");
-            renderManager.LoadContent("200");
-            renderManager.LoadContent("210");
-            renderManager.LoadContent("211");
-            renderManager.LoadContent("220");
-            renderManager.LoadContent("310");
-            renderManager.LoadContent("320");
+            foreach (var map in Setting.MapLoad)
+            {
+                mapManager.Load(map);
+            }
+            foreach(var texture in Setting.TexturesLoad)
+            {
+                renderManager.LoadContent(texture);
+            }
+           
 
             // この上にロジックを記述
         }
@@ -119,7 +112,7 @@ namespace GroupGame10
             }
 
             // この下に更新ロジックを記述
-            Input.Update();
+            Input.Update(gameTime);
             if (Input.IsKeyDown(Keys.Enter))
             {
                 scenceManager.Enabled = true;

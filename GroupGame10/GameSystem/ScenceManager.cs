@@ -6,35 +6,41 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using GroupGame10.Base;
 
+
 namespace GroupGame10.GameSystem
 {
     class ScenceManager : GameComponent,IManager
     {
-       public enum Scence { Title,GamePlay01,GamePlay02,Ending}
-        Dictionary<Scence, BaseScene> scences;
+       
+        
+        Dictionary<Scecne, BaseScene> scences;
         public BaseScene CurrentSence { set; get; }
 
         private RenderManager renderManager;
         private MapManager mapManager;
         private PhysicsManager physicsManager;
+        private Scecne curr;
+       
 
         public ScenceManager(Game game) : base(game)
         {
-            scences = new Dictionary<Scence, BaseScene>();
-           
+            scences = new Dictionary<Scecne, BaseScene>();           
             renderManager = (RenderManager)game.Components.First(b => b is RenderManager);
             mapManager = (MapManager)game.Components.First(b => b is MapManager);
             physicsManager = (PhysicsManager)game.Components.First(b => b is PhysicsManager);
-            scences.Add(Scence.GamePlay01, new GamePlay01(game));
-            scences.Add(Scence.GamePlay02, new GamePlay02(game));
-            scences.Add(Scence.Title, new Title(game));
-            scences.Add(Scence.Ending, new Ending(game));
-            CurrentSence = scences[Scence.Title];
+            scences.Add(Scecne.Title, new Title(game));
+            scences.Add(Scecne.Ending, new Ending(game));
+            for(int i = 1; i < Setting.MaxScene - 1; i++)
+            {
+
+                scences.Add((Scecne)i, new GamePlay(game, ((Scecne)i).ToString()));
+            }
+            curr = 0;
+            
+            CurrentSence = scences[curr];
         }
         public override void Initialize()
         {
-
-
             CurrentSence.Inilized();
             base.Initialize();
         }
@@ -42,7 +48,17 @@ namespace GroupGame10.GameSystem
         public override void Update(GameTime gameTime)
         {
             NextScene();
+            //start
+            if (!physicsManager.Enabled && Input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Space))
+            {
+                physicsManager.Enabled = true;
+            }
             CurrentSence.Update(gameTime);
+            //restart
+            if (Input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Enter))
+            {
+                ChangeScene(curr);
+            }
             base.Update(gameTime);
         }
 
@@ -50,18 +66,23 @@ namespace GroupGame10.GameSystem
         public void NextScene()
         {
             if (!CurrentSence.IsEndFlag) return;
-            CurrentSence = scences[CurrentSence.Next()];
+            curr = (int)curr + 1 >=Setting.MaxScene ? 0 : curr + 1;
+            ChangeScene(curr);
+        }
+        public void ChangeScene(Scecne scence)
+        {
+            CurrentSence = scences[scence];
             renderManager.ClearList();
             mapManager.ClearList();
             physicsManager.ClearList();
             CurrentSence.Inilized();
             CurrentSence.Physics(physicsManager);
-            if (CurrentSence is GamePlay01)
+            if (CurrentSence is GamePlay)
             {
-                renderManager.MapList = mapManager.GetMap(CurrentSence.Name+".csv");
+                renderManager.MapList = mapManager.GetMap(CurrentSence.Name + ".csv");
                 physicsManager.MapList = renderManager.MapList;
             }
-                CurrentSence.Draw(renderManager);
+            CurrentSence.Draw(renderManager);
         }
 
         public void ClearList()
