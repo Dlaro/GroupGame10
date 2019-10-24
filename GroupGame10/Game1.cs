@@ -80,6 +80,14 @@ namespace GroupGame10
             renderManager.LoadContent("item");
             renderManager.LoadContent("bg1");
             renderManager.LoadContent("bg2");
+            renderManager.LoadContent("100");
+            renderManager.LoadContent("110");
+            renderManager.LoadContent("200");
+            renderManager.LoadContent("210");
+            renderManager.LoadContent("211");
+            renderManager.LoadContent("220");
+            renderManager.LoadContent("310");
+            renderManager.LoadContent("320");
 
             // この上にロジックを記述
         }

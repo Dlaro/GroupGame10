@@ -27,7 +27,7 @@ namespace GroupGame10
         }
         public object Clone()
         {
-            return new Enemy(this);
+            return this.MemberwiseClone();
         }
 
         public override void Inilized()
