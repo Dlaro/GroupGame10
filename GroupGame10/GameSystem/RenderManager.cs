@@ -23,7 +23,7 @@ namespace GroupGame10.GameSystem
         private ContentManager contentManager;
         private Vector2 camera;
         Player player;
-
+        
         internal List<BaseEntity> Entities { get => entities; set => entities = value; }
         internal List<List<BaseEntity>> MapList { get => mapList; set => mapList = value; }
         internal List<BackGround> BackGrounds { get => backGrounds; set => backGrounds = value; }
@@ -48,11 +48,13 @@ namespace GroupGame10.GameSystem
 
         public override void Update(GameTime gameTime)
         {
-           
-            if (player is null) return;
-            camera = player.Position - new Vector2(256, 0);
-           
-
+            if (!(BackGrounds is null)) BackGrounds.ForEach(bg => bg.Update(gameTime));
+            if (player != null)
+            {
+                camera = player.Position - new Vector2(256, 0);
+                camera.X = camera.X > 98*64-1024? 98 * 64 - 1024 : camera.X;
+            }
+          
 
             base.Update(gameTime);
         }
@@ -65,6 +67,7 @@ namespace GroupGame10.GameSystem
             {
                 foreach (var a in list)
                 {
+                    if (a is Space) continue;
                     DrawTexture(a.Name, a.Rectangle);
                 }
             }
@@ -72,11 +75,11 @@ namespace GroupGame10.GameSystem
             {
                 foreach (var e in Entities)
                 {
-                    if (e.IsDeadFlag) return;
+                    
+                    if (e.IsDeadFlag) continue;
                     DrawTexture(e.Name, e.Rectangle);
                 }
             }
-            if (!(player is null))  DrawTexture("block", player.Rectangle);
             if (!(player is null))  spriteBatch.Draw(textures["player"], destinationRectangle: new Rectangle((int)(player.Rectangle.X-camera.X+24), player.Rectangle.Y+24, 64, 64), origin: new Vector2(24, 24), rotation: player.Rotation);
        
             spriteBatch.End();

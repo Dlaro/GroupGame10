@@ -25,7 +25,7 @@ namespace GroupGame10
         public override void Inilized()
         {
             IsEndFlag = false;
-            player = new Player();
+            player = new Player((SoundManager)game.Components.First(b=>b is SoundManager));
 
 
 

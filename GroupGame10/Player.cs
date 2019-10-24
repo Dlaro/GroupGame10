@@ -12,6 +12,7 @@ namespace GroupGame10
 {
     class Player : BaseEntity
     {
+        SoundManager soundManager;
         float rotation;
         Vector2 a = new Vector2(0, 1);
         int b = 1;
@@ -38,17 +39,17 @@ namespace GroupGame10
                 base.Position = value;
             }
         }
-        int line;
         Vector2 _velocity;
-        bool isInWater=true;
-        public Player()
+        bool isInWater=false;
+        bool preIsInWater = false;
+        public Player(SoundManager sound)
         {
-            line = 416;
             Name = "player";
             Size = new Point(48, 48);
             Position = new Vector2(256, 300);
             _velocity = new Vector2(8, 0);
             velocity = _velocity;
+            soundManager = sound;
         }
 
         public override void Inilized()
@@ -58,11 +59,18 @@ namespace GroupGame10
 
         public override void Update(GameTime gameTime)
         {
-            if (currentState == State.Air && isInWater) currentState = State.Surface;
+           
+
+           
+            if (!preIsInWater && isInWater) { currentState = State.Surface; soundManager.PlaySE("water"); }
 
             if (Input.IsKeyUp(Keys.Space)) currentState = State.Rise;
             if (!isInWater) currentState = State.Air;
-            if (Input.GetKeyState(Keys.Space)) currentState = State.Dive;
+            if (Input.GetKeyState(Keys.Space))
+            {
+                currentState = State.Dive;
+            }
+
 
             switch (currentState)
             {
@@ -88,7 +96,7 @@ namespace GroupGame10
             }
             Rotation = (float)Math.Atan2((double)velocity.Y, (double)velocity.X) / 2;
             Position += velocity;
-            isInWater = false;
+            preIsInWater = isInWater;
         }
 
         private Vector2 Center()
@@ -97,6 +105,7 @@ namespace GroupGame10
         }
         public override void Hit(BaseEntity other)
         {
+
             switch (other)
             {
                 case Block a:
@@ -112,11 +121,21 @@ namespace GroupGame10
                     break;
                 case Sea d:
                     d.Hit(this);
-                   if(d.Rectangle.Intersects(new Rectangle(this.Rectangle.Center,new Point(1,1)))) isInWater = true;
+                    if (d.Rectangle.Intersects(new Rectangle(this.Rectangle.Center, new Point(1, 1)))) {
+                        isInWater = true;
+                    }
+                    break;
+                case Space e:
+                    if (e.Rectangle.Intersects(new Rectangle(this.Rectangle.Center, new Point(1, 1))))
+                    {
+                        isInWater = false;
+                    }
                     break;
                 default:
                     return;
+
             }
+
         }
         private void HitBlock(Block block)
         {

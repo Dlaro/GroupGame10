@@ -10,9 +10,7 @@ namespace GroupGame10.GameSystem
     class PhysicsManager : GameComponent, IManager
     {
         List<BaseEntity> entities;
-        List<Block> blockList;
-        List<Enemy> enemyList;
-        List<Item> itemList;
+
         List<List<BaseEntity>> mapList;
         Player player;
 

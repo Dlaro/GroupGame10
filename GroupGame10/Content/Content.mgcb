@@ -97,6 +97,12 @@
 /processorParam:TextureFormat=Color
 /build:block.png
 
+#begin coin.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:coin.mp3
+
 #begin E120.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -210,4 +216,10 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:S200.png
+
+#begin water.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:water.mp3
 

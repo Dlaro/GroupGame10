@@ -11,9 +11,7 @@ namespace GroupGame10.GameSystem
 {
     class MapManager : GameComponent, IManager
     {
-        List<Block> blockList;
-        List<Enemy> enemyList;
-        List<Item> itemList;
+
         List<List<BaseEntity>> mapList;
         Dictionary<string, List<string[]>> mapData;
         Dictionary<string, ICloneable> entityDict ;
@@ -25,11 +23,8 @@ namespace GroupGame10.GameSystem
 
         public MapManager(Game game) : base(game)
         {
-            enemyList = new List<Enemy>();
             MapList = new List<List<BaseEntity>>();
             MapData = new Dictionary<string, List<string[]>>();
-            itemList = new List<Item>();
-            blockList = new List<Block>();
             entityDict = new Dictionary<string, ICloneable>();
             reader = new CSVreader();
         }
@@ -48,6 +43,7 @@ namespace GroupGame10.GameSystem
                 if (entity.StartsWith("B")) { entityDict.Add(entity, new Block(entity, new Vector2(32, 32), new Point(64, 64))); continue; }
                 if (entity.StartsWith("E")) { entityDict.Add(entity, new Enemy(entity, new Vector2(32, 32), new Point(64, 64))); continue; }
                 if (entity.StartsWith("I")) { entityDict.Add(entity, new Item(entity, new Vector2(32, 32), new Point(64, 64))); continue; }
+                if (entity.StartsWith("0")) { entityDict.Add(entity, new Space(entity, new Vector2(32, 32), new Point(64, 64))); continue; }
             }
 
         }
@@ -66,7 +62,7 @@ namespace GroupGame10.GameSystem
             int colCnt = 0;
             foreach (var s in line)
             {
-                if (s == "") { colCnt += 1; continue; }
+ 
                 try
                 {
                     BaseEntity work = (BaseEntity)entityDict[s].Clone();

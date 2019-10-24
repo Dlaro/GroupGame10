@@ -55,6 +55,18 @@ namespace GroupGame10
              "B110",
              "E120",
              "I999",
+             "0"
+        };
+
+        public static readonly string[] SELoad =
+        {
+            "water",
+            "coin"
+        };
+
+        public static readonly string[] BGMLoad =
+{
+
         };
 
 

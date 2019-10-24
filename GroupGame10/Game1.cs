@@ -23,6 +23,7 @@ namespace GroupGame10
         private MapManager mapManager;
         private ScenceManager scenceManager;
         private PhysicsManager spriteManager;
+        private SoundManager soundManager;
 
         /// <summary>
         /// コンストラクタ
@@ -58,6 +59,9 @@ namespace GroupGame10
             scenceManager = new ScenceManager(this);
             Components.Add(scenceManager);
 
+            soundManager = new SoundManager(this);
+            Components.Add(soundManager);
+
             // この上にロジックを記述
             base.Initialize();// 親クラスの初期化処理呼び出し。絶対に消すな！！
         }
@@ -80,7 +84,15 @@ namespace GroupGame10
             {
                 renderManager.LoadContent(texture);
             }
-           
+            foreach (var song in Setting.BGMLoad)
+            {
+                soundManager.LoadBGM(song);
+            }
+            foreach (var se in Setting.SELoad)
+            {
+                soundManager.LoadSE(se);
+            }
+
 
             // この上にロジックを記述
         }
