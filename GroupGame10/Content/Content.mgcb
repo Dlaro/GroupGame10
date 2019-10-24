@@ -157,6 +157,21 @@
 #begin GamePlay02.csv
 /copy:GamePlay02.csv
 
+#begin GamePlay03.csv
+/copy:GamePlay03.csv
+
+#begin GamePlay04.csv
+/copy:GamePlay04.csv
+
+#begin GamePlay05.csv
+/copy:GamePlay05.csv
+
+#begin GamePlay06.csv
+/copy:GamePlay06.csv
+
+#begin GamePlay07.csv
+/copy:GamePlay07.csv
+
 #begin I999.png
 /importer:TextureImporter
 /processor:TextureProcessor

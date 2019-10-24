@@ -52,7 +52,7 @@ namespace GroupGame10.GameSystem
             if (player != null)
             {
                 camera = player.Position - new Vector2(256, 0);
-                camera.X = camera.X > 98*64-1024? 98 * 64 - 1024 : camera.X;
+                camera.X = camera.X > 98*64-Screen.Width? 98 * 64 - Screen.Width : camera.X;
             }
           
 

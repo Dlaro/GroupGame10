@@ -37,7 +37,7 @@ namespace GroupGame10
             Content.RootDirectory = "Content";
             graphicsDeviceManager.PreferredBackBufferWidth = Screen.Width;
             graphicsDeviceManager.PreferredBackBufferHeight = Screen.Height;
-
+            
         }
 
         /// <summary>

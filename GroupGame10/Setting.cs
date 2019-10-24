@@ -12,11 +12,16 @@ namespace GroupGame10
         Title,
         GamePlay01,
         GamePlay02,
+        GamePlay03,
+        GamePlay04,
+        GamePlay05,
+        GamePlay06,
+        GamePlay07,
         Ending
     }
     static class Setting
     {
-        public static readonly int MaxScene = 4;//合計
+        public static readonly int MaxScene = 9;//scene合計
         public static readonly string[] TexturesLoad =
             {
             "player",
@@ -39,7 +44,12 @@ namespace GroupGame10
         public static readonly string[] MapLoad =
             {
             "GamePlay01.csv",
-            "GamePlay02.csv"
+            "GamePlay02.csv",
+            "GamePlay03.csv",
+            "GamePlay04.csv",
+            "GamePlay05.csv",
+            "GamePlay06.csv",
+            "GamePlay07.csv",
         };
 
         public static readonly string[] MapBlock =
