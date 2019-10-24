@@ -9,22 +9,23 @@ using Microsoft.Xna.Framework;
 
 namespace GroupGame10
 {
-    class Enemy : BaseEntity,ICloneable
+    class Space : BaseEntity, ICloneable
     {
-        public Enemy(string name,Vector2 position,Point size)
+        public Space(string name, Vector2 position, Point size)
         {
             Size = size;
             Name = name;
             Position = position;
-        }
 
-        public Enemy(Enemy other)
+
+        }
+        public Space(Block other)
         {
-           this.Size = other.Size;
-           this.Name = other.Name;
-           this.Position = other.Position;
-
+            this.Size = other.Size;
+            this.Name = other.Name;
+            this.Position = other.Position;
         }
+
         public object Clone()
         {
             return this.MemberwiseClone();
@@ -32,7 +33,6 @@ namespace GroupGame10
 
         public override void Inilized()
         {
-
         }
 
         public override void Update(GameTime gameTime)
@@ -41,7 +41,8 @@ namespace GroupGame10
         }
         public override void Hit(BaseEntity other)
         {
-            IsDeadFlag = true;
+
         }
     }
 }
+

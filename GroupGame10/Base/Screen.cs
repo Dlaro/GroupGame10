@@ -13,6 +13,6 @@ namespace GroupGame10.Base
     {
         //C#
         public static readonly int Width = 1024;//画面横幅
-        public static readonly int Height = 600;//画面縦幅
+        public static readonly int Height = 640;//画面縦幅
     }
 }

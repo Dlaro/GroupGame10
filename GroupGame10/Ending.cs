@@ -16,11 +16,7 @@ namespace GroupGame10
             renderManager = (RenderManager)game.Components.First(b => b is RenderManager);
         }
 
-        public override void Draw(RenderManager render)
-        {
-            
-        }
-
+ 
         public override void Inilized()
         {
             IsEndFlag = false;
@@ -29,14 +25,19 @@ namespace GroupGame10
             
         }
 
-        public override ScenceManager.Scence Next()
-        {
-            return ScenceManager.Scence.Title;
-        }
+
 
         public override void Update(GameTime gameTime)
         {
             if (Input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F)) IsEndFlag = true;
+        }
+        public override void Draw(RenderManager renderManager)
+        {
+
+        }
+        public override void Physics(PhysicsManager physicsManager)
+        {
+            
         }
     }
 }
