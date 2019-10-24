@@ -76,8 +76,9 @@ namespace GroupGame10.GameSystem
                     DrawTexture(e.Name, e.Rectangle);
                 }
             }
-          if(!(player is null))  spriteBatch.Draw(textures["player"], destinationRectangle: new Rectangle((int)(player.Rectangle.X-camera.X+32), player.Rectangle.Y+32, player.Rectangle.Width, player.Rectangle.Height), origin: new Vector2(24, 24), rotation: player.Rotation);
-          // DrawTexture("block", player.Rectangle);
+            if (!(player is null))  DrawTexture("block", player.Rectangle);
+            if (!(player is null))  spriteBatch.Draw(textures["player"], destinationRectangle: new Rectangle((int)(player.Rectangle.X-camera.X+24), player.Rectangle.Y+24, 64, 64), origin: new Vector2(24, 24), rotation: player.Rotation);
+       
             spriteBatch.End();
             base.Draw(gameTime);
         }

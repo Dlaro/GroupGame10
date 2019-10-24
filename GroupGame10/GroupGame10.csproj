@@ -46,6 +46,7 @@
     <Compile Include="Base\Screen.cs" />
     <Compile Include="BackGruond.cs" />
     <Compile Include="Base\Block.cs" />
+    <Compile Include="Block_Move.cs" />
     <Compile Include="Ending.cs" />
     <Compile Include="Base\Enemy.cs" />
     <Compile Include="Game1.cs" />

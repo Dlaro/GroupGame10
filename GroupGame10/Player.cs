@@ -39,13 +39,16 @@ namespace GroupGame10
             }
         }
         int line;
+        Vector2 _velocity;
+        bool isInWater=true;
         public Player()
         {
             line = 416;
             Name = "player";
-            Size = new Point(64, 64);
-            Position = new Vector2(256, line);
-            velocity = new Vector2(5, 0);
+            Size = new Point(48, 48);
+            Position = new Vector2(256, 300);
+            _velocity = new Vector2(8, 0);
+            velocity = _velocity;
         }
 
         public override void Inilized()
@@ -55,38 +58,50 @@ namespace GroupGame10
 
         public override void Update(GameTime gameTime)
         {
-            if (Input.GetKeyState(Keys.Space)) currentState = State.Dive;
+            if (currentState == State.Air && isInWater) currentState = State.Surface;
+
             if (Input.IsKeyUp(Keys.Space)) currentState = State.Rise;
-            if (Position.Y < line - 32) currentState = State.Air;
-            if (currentState == State.Air && Position.Y > line) currentState = State.Surface;
+            if (!isInWater) currentState = State.Air;
+            if (Input.GetKeyState(Keys.Space)) currentState = State.Dive;
+
             switch (currentState)
             {
                 case State.Dive:
                     velocity.Y = (velocity.Y < 0 ? 0 : velocity.Y);
-                    velocity.Y += 0.5f * b;
+                    velocity.Y += 1f * b;
                     break;
                 case State.Rise:
-                    velocity.Y = (velocity.Y > 0 ? 0 : velocity.Y);
-                    velocity.Y -= 2f * b;
+                    velocity.Y = (velocity.Y > -15 ? -15: velocity.Y);
+                    velocity.Y -= 1f * b;
+                    
+                    velocity.Y = (velocity.Y < -22 ? -22 : velocity.Y);
                     break;
                 case State.Air:
-                    velocity.Y += 1.5f * b;
+                    
+                    velocity.Y += 1f * b;
+                    velocity.Y = (velocity.Y > 10 ? 10 : velocity.Y);
                     break;
                 case State.Surface:
-                    velocity.Y = b * (Position.Y > line ? -2 : 0);
+                    velocity.Y = 0;
 
                     break;
             }
             Rotation = (float)Math.Atan2((double)velocity.Y, (double)velocity.X) / 2;
             Position += velocity;
+            isInWater = false;
         }
 
+        private Vector2 Center()
+        {
+            return new Vector2(Position.X + Size.X / 2, Position.Y + Size.Y / 2);
+        }
         public override void Hit(BaseEntity other)
         {
             switch (other)
             {
                 case Block a:
-                   // IsDeadFlag = true;
+                    if (Math.Abs((a.Rectangle.Center.ToVector2() - Rectangle.Center.ToVector2()).Length()) < 64)
+                        IsDeadFlag = true;
 
                     break;
                 case Enemy b:
@@ -97,6 +112,7 @@ namespace GroupGame10
                     break;
                 case Sea d:
                     d.Hit(this);
+                   if(d.Rectangle.Intersects(new Rectangle(this.Rectangle.Center,new Point(1,1)))) isInWater = true;
                     break;
                 default:
                     return;
