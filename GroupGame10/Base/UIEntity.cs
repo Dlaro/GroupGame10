@@ -11,16 +11,27 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GroupGame10
 {
-    class BackGround : BaseEntity
+    class UIEntity : BaseEntity
     {
         Vector2 _position;
-        public BackGround(string name,Vector2 position,Vector2 vel)
+        Rectangle moveLimit;
+        public UIEntity(string name, Vector2 position)
+        {
+            Name = name;
+            Size = new Point(Screen.Width, Screen.Height);
+            velocity = Vector2.Zero;
+            Position = position;
+            _position = position;
+
+        }
+        public UIEntity(string name, Vector2 position, Vector2 vel,Rectangle rectangle)
         {
             Name = name;
             Size = new Point(Screen.Width, Screen.Height);
             velocity = vel;
             Position = position;
-            _position=position;
+            _position = position;
+            moveLimit = rectangle;
 
         }
 
@@ -31,8 +42,12 @@ namespace GroupGame10
 
         public override void Update(GameTime gameTime)
         {
+            
             Position += velocity;
-            if (Position.X <_position.X -1024) Inilized();
+            if (Position.Y > moveLimit.Bottom || Position.Y < moveLimit.Top) velocity.Y = -velocity.Y;
+            if (Position.X > moveLimit.Right || Position.X < moveLimit.Left) velocity.X = -velocity.X;
+
+
         }
         public override void Hit(BaseEntity other)
         {

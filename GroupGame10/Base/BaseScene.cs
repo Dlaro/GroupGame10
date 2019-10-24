@@ -16,8 +16,9 @@ namespace GroupGame10.Base
 
         public abstract void Update(GameTime gameTime);
 
-        public abstract void Draw(RenderManager render);
+        public abstract void Physics(PhysicsManager physicsManager);
 
+        public abstract void Draw(RenderManager renderManager);
         public abstract void Inilized();
         public abstract ScenceManager.Scence Next();
     }

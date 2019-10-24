@@ -28,7 +28,7 @@ namespace GroupGame10
 
         public object Clone()
         {
-            return new Sea(this);
+            return this.MemberwiseClone();
         }
 
         public override void Inilized()
