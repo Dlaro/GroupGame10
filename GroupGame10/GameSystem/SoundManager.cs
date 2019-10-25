@@ -207,7 +207,7 @@ namespace GroupGame10.GameSystem
         {
             switch (file)
             {
-                case "IntoWtaer":
+                case "IntoWater":
                     PlaySE("water");
                     break;
                 case "GetCoin":

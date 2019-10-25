@@ -15,6 +15,24 @@ namespace GroupGame10
 
         enum State { Dive, Rise, Air, Surface }
         State currentState = State.Air;
+        Vector2 _velocity;
+        float rotation;
+        Vector2 a = new Vector2(0, 1);
+        int b = 1;
+        List<IObserver> observers;
+        int numObservers = 0;
+        string currCenter;
+        string preCenter;
+
+        public Player()
+        {
+            Name = "player";
+            Size = new Point(48, 48);
+            Position = new Vector2(256, 300);
+            _velocity = new Vector2(8, 0);
+            velocity = _velocity;
+            observers = new List<IObserver>();
+        }
         public float Rotation
         {
             get => rotation;
@@ -35,27 +53,6 @@ namespace GroupGame10
                 base.Position = value;
             }
         }
-        Vector2 _velocity;
-        bool isInWater = false;
-        bool preIsInWater = false;
-        SoundManager soundManager;
-        float rotation;
-        Vector2 a = new Vector2(0, 1);
-        int b = 1;
-        List<IObserver> observers;
-        int numObservers = 0;
-        string currCenter;
-        string preCenter;
-
-        public Player()
-        {
-            Name = "player";
-            Size = new Point(48, 48);
-            Position = new Vector2(256, 300);
-            _velocity = new Vector2(8, 0);
-            velocity = _velocity;
-            observers = new List<IObserver>();
-        }
 
         public override void Inilized()
         {
@@ -71,8 +68,8 @@ namespace GroupGame10
                 currentState = State.Surface;
                 observers.ForEach(ob => ob.OnNotify("IntoWater"));
             }
-            if (Input.IsKeyUp(Keys.Space) ) currentState = State.Rise;
-            if (currCenter =="GroupGame10.Space") currentState = State.Air;
+            if (Input.IsKeyUp(Keys.Space)) currentState = State.Rise;
+            if (currCenter == "GroupGame10.Space") currentState = State.Air;
             if (Input.GetKeyState(Keys.Space))
             {
                 currentState = State.Dive;
@@ -103,8 +100,7 @@ namespace GroupGame10
             }
             Rotation = (float)Math.Atan2((double)velocity.Y, (double)velocity.X) / 2;
             Position += velocity;
-            preIsInWater = isInWater;
-                  preCenter = currCenter;
+            preCenter = currCenter;
         }
 
         private Vector2 Center()
@@ -112,7 +108,8 @@ namespace GroupGame10
             return new Vector2(Position.X + Size.X / 2, Position.Y + Size.Y / 2);
         }
         public override void Hit(BaseEntity other)
-        {if (other.Rectangle.Intersects(new Rectangle(Position.ToPoint(), Size))) currCenter=other.GetType().ToString();
+        {
+            if (other.Rectangle.Intersects(new Rectangle(Position.ToPoint(), Size))) currCenter = other.GetType().ToString();
             switch (other)
             {
                 case Block a:
@@ -130,16 +127,8 @@ namespace GroupGame10
                     break;
                 case Sea d:
                     d.Hit(this);
-                    if (d.Rectangle.Intersects(new Rectangle(this.Rectangle.Center, new Point(1, 1))))
-                    {
-                        isInWater = true;
-                    }
                     break;
                 case Space e:
-                    if (e.Rectangle.Intersects(new Rectangle(this.Rectangle.Center, new Point(1, 1))))
-                    {
-                        isInWater = false;
-                    }
                     break;
                 default:
                     return;
