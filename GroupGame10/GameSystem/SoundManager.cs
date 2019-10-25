@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace GroupGame10.GameSystem
 {
-   class SoundManager : GameComponent, IManager
+   class SoundManager : GameComponent, IManager,IObserver
     {
         Dictionary<string, SoundEffect> SEs;
         Dictionary<string, Song> BGMs;
@@ -203,6 +203,21 @@ namespace GroupGame10.GameSystem
 
         }
         #endregion //WAV(SE:SoundEffect)関連
+        public void OnNotify(string file)
+        {
+            switch (file)
+            {
+                case "IntoWtaer":
+                    PlaySE("water");
+                    break;
+                case "GetCoin":
+                    PlaySE("coin");
+                    break;
+                default:
+                    break;
+            }
+        }
+        
     }
 }
 

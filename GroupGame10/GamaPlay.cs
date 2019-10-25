@@ -13,7 +13,7 @@ namespace GroupGame10
     {
 
         Player player;
-
+        Score score;
         Game game;
         public GamePlay(Game game, string name)
         {
@@ -24,16 +24,18 @@ namespace GroupGame10
 
         public override void Inilized()
         {
+            score = new Score(game);
             IsEndFlag = false;
-            player = new Player((SoundManager)game.Components.First(b=>b is SoundManager));
-
+            player = new Player();
+            player.AddObserver((IObserver)game.Components.First(com=>com is SoundManager));
+            player.AddObserver(score);
 
 
         }
 
         public override void Update(GameTime gameTime)
         {
-
+            score.Update(gameTime);
             if (Input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F)) IsEndFlag = true;
         }
         public override void Draw(RenderManager renderManager)
