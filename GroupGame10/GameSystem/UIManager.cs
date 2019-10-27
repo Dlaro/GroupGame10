@@ -15,6 +15,9 @@ namespace GroupGame10.GameSystem
         UIEntity gameover;
         UIEntity gameclear;
         UIEntity star;
+        bool isShaking=false;
+        float current;
+        float cyc=0.8f;
         int sum = 0;
         int max = 0;
         public int Sum { get => sum; set => sum = value; }
@@ -29,11 +32,23 @@ namespace GroupGame10.GameSystem
 
         public override void Draw(GameTime gameTime)
         {
+            if (isShaking)
+            {
+                current +=(float) gameTime.ElapsedGameTime.TotalSeconds;
+                if (current >= cyc)
+                {
+                    renderManager.UIEntities.Add(gameover);
+                    renderManager.UIEntities.Add(star);
+                    isShaking = false;
+                }
+                
+            }
             base.Draw(gameTime);
         }
 
         public override void Update(GameTime gameTime)
         {
+            if(isShaking)
             base.Update(gameTime);
         }
 
@@ -47,8 +62,9 @@ namespace GroupGame10.GameSystem
             switch (file)
             {
                 case "dead":
-                    renderManager.UIEntities.Add(gameover);
-                    renderManager.UIEntities.Add(star);
+
+                    isShaking = true;
+                    current = 0;
                     break;
                 case "clear":
                     renderManager.UIEntities.Add(gameclear);

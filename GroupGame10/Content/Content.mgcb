@@ -253,11 +253,23 @@
 /processorParam:TextureFormat=Color
 /build:block.png
 
+#begin clear.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:clear.mp3
+
 #begin coin.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:coin.mp3
+
+#begin dead.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:dead.mp3
 
 #begin E120.png
 /importer:TextureImporter
@@ -306,6 +318,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:enemy.png
+
+#begin gamebgm.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:gamebgm.mp3
 
 #begin GAMECLEAR.png
 /importer:TextureImporter
@@ -387,6 +405,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:logo.png
+
+#begin over.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:over.mp3
 
 #begin player.png
 /importer:TextureImporter

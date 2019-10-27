@@ -22,8 +22,8 @@ namespace GroupGame10.GameSystem
         private SpriteBatch spriteBatch;
         private Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
         private ContentManager contentManager;
-        private Vector2 camera;
         Player player;
+        Camera camera2D;
         
         internal List<BaseEntity> Entities { get => entities; set => entities = value; }
         internal List<List<BaseEntity>> MapList { get => mapList; set => mapList = value; }
@@ -37,7 +37,9 @@ namespace GroupGame10.GameSystem
             this.game = game;
             contentManager = game.Content;
             spriteBatch = new SpriteBatch(game.GraphicsDevice);
-            camera = Vector2.Zero;
+           
+            camera2D = new Camera(game);
+            game.Components.Add(camera2D);
             BackGrounds = new List<BackGround>();
             MapList = new List<List<BaseEntity>>();
 
@@ -55,20 +57,20 @@ namespace GroupGame10.GameSystem
         public override void Update(GameTime gameTime)
         {
             if (!(BackGrounds is null)) BackGrounds.ForEach(bg => bg.Update(gameTime));
-            if (player != null)
-            {
-                camera = player.Position - new Vector2(256, 0);
-                camera.X = camera.X > 98*64-Screen.Width? 98 * 64 - Screen.Width : camera.X;
-            }
+     
           
 
             base.Update(gameTime);
         }
         public override void Draw(GameTime gameTime)
         {
+            spriteBatch.Begin();
+            if (!(BackGrounds is null)) BackGrounds.ForEach(bg => DrawTexture(bg.Name, bg.Position));
+            spriteBatch.End();
+            spriteBatch.Begin(transformMatrix:
+                  camera2D.Transform);
            
-            spriteBatch.Begin(blendState: BlendState.AlphaBlend);
-          if(!(BackGrounds is null))  BackGrounds.ForEach(bg => DrawTexture(bg.Name, bg.Position));
+
             foreach (var list in MapList)
             {
                 foreach (var a in list)
@@ -81,13 +83,20 @@ namespace GroupGame10.GameSystem
             {
                 foreach (var e in Entities)
                 {
-                    
+
                     if (e.IsDeadFlag) continue;
                     DrawTextureWithCamera(e.Name, e.Rectangle);
                 }
             }
-            if (!(player is null))  spriteBatch.Draw(textures["player"], destinationRectangle: new Rectangle((int)(player.Rectangle.X-camera.X+24), player.Rectangle.Y+24, 64, 64), origin: new Vector2(24, 24), rotation: player.Rotation);
-           if(UIEntities != null)
+            if (!(player is null)) spriteBatch.Draw(textures["player"], destinationRectangle: new Rectangle((int)(player.Rectangle.X ), player.Rectangle.Y , 64, 64), origin: new Vector2(24, 24), rotation: player.Rotation);
+            spriteBatch.End();
+
+            spriteBatch.Begin(blendState: BlendState.AlphaBlend);
+
+           
+
+
+            if (UIEntities != null)
             {
                 foreach(var ui in UIEntities)
                 {
@@ -101,7 +110,7 @@ namespace GroupGame10.GameSystem
 
         public void Add(BaseEntity entity)
         {
-            if (entity is Player) { player = (Player)entity; return; }
+            if (entity is Player) { player = (Player)entity; player.AddObserver(camera2D); camera2D.Focus=player; return; }
             Entities.Add(entity);
         }
         public void LoadContent(string assetName, string filepath = "./")
@@ -145,7 +154,7 @@ namespace GroupGame10.GameSystem
                 textures.ContainsKey(assetName),
                 "描画時にアセット名の指定を間違えたか、" +
                 "画像の読み込み自体できていません");
-            rectangle.X = rectangle.X - (int)camera.X;
+            
             spriteBatch.Draw(textures[assetName], rectangle, Color.White * alpha);
         }
         /// <summary>

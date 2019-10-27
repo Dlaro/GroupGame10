@@ -42,6 +42,7 @@ namespace GroupGame10.GameSystem
         public override void Initialize()
         {
             ChangeScene(Scecne.Title);
+            
             base.Initialize();
         }
 

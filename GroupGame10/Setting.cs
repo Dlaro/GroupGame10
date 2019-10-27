@@ -88,12 +88,15 @@ namespace GroupGame10
         public static readonly string[] SELoad =
         {
             "water",
-            "coin"
+            "coin",
+            "dead",
+            "clear",
+            "over"
         };
 
         public static readonly string[] BGMLoad =
 {
-
+            "gamebgm"
         };
 
 

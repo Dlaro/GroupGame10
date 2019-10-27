@@ -50,6 +50,7 @@
     <Compile Include="Base\Space.cs" />
     <Compile Include="Base\UIEntity.cs" />
     <Compile Include="Block_Move.cs" />
+    <Compile Include="GameSystem\Camera.cs" />
     <Compile Include="GameSystem\SoundManager.cs" />
     <Compile Include="Ending.cs" />
     <Compile Include="Base\Enemy.cs" />

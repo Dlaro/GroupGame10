@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+
 using GroupGame10.GameSystem;
 using GroupGame10.Base;
 /// <summary>
@@ -18,7 +19,7 @@ namespace GroupGame10
         // フィールド（このクラスの情報を記述）
         private GraphicsDeviceManager graphicsDeviceManager;//グラフィックスデバイスを管理するオブジェクト
       
-
+        
         private RenderManager renderManager;
         private MapManager mapManager;
         private ScenceManager scenceManager;
@@ -97,7 +98,7 @@ namespace GroupGame10
                 soundManager.LoadSE(se);
             }
 
-
+            soundManager.PlayBGM("gamebgm");
             // この上にロジックを記述
         }
 
