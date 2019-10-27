@@ -13,6 +13,7 @@ namespace GroupGame10
 {
     class UIEntity : BaseEntity
     {
+        
         Vector2 _position;
         Rectangle moveLimit;
         public UIEntity(string name, Vector2 position)

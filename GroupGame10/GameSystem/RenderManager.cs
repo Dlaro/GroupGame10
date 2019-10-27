@@ -34,14 +34,17 @@ namespace GroupGame10.GameSystem
             this.game = game;
             contentManager = game.Content;
             spriteBatch = new SpriteBatch(game.GraphicsDevice);
-            camera = new Vector2();
+            camera = Vector2.Zero;
             BackGrounds = new List<BackGround>();
             MapList = new List<List<BaseEntity>>();
 
         }
         public override void Initialize()
         {
-           
+            BackGrounds.Add(new BackGround("bg1", new Vector2(1024, 0), new Vector2(-2, 0)));
+            BackGrounds.Add(new BackGround("bg1", Vector2.Zero, new Vector2(-2, 0)));
+            BackGrounds.Add(new BackGround("bg2", Vector2.Zero, new Vector2(-1, 0)));
+            BackGrounds.Add(new BackGround("bg2", new Vector2(1024, 0), new Vector2(-1, 0)));
 
             base.Initialize();
         }
@@ -217,8 +220,7 @@ namespace GroupGame10.GameSystem
         #endregion  画像の描画
         public void ClearList()
         {
-            BackGrounds.Clear();
-            
+              
             Entities.Clear();
 
             MapList= new List<List<BaseEntity>>();

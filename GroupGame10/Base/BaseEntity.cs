@@ -15,7 +15,7 @@ namespace GroupGame10.Base
 
         private bool isDeadFlag;
         public string Name { get; protected set; }
-        private Vector2 position;
+        protected Vector2 position;
         public virtual  Vector2 Position
         {
             get => position;
