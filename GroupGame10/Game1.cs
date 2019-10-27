@@ -24,6 +24,7 @@ namespace GroupGame10
         private ScenceManager scenceManager;
         private PhysicsManager spriteManager;
         private SoundManager soundManager;
+        private UIManager uIManager;
 
         /// <summary>
         /// コンストラクタ
@@ -48,13 +49,16 @@ namespace GroupGame10
             // この下にロジックを記述
 
             renderManager = new RenderManager(this);
-
             Components.Add(renderManager);
-            mapManager = new MapManager(this);
 
+            uIManager = new UIManager(this);
+            Components.Add(uIManager);
+
+            mapManager = new MapManager(this);
             Components.Add(mapManager);
+
             spriteManager = new PhysicsManager(this);
-            Components.Add(spriteManager);
+            Components.Add(spriteManager); 
             
             scenceManager = new ScenceManager(this);
             Components.Add(scenceManager);

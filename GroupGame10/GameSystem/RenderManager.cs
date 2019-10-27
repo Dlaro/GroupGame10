@@ -17,6 +17,7 @@ namespace GroupGame10.GameSystem
         private List<BaseEntity> entities;
         private List<List<BaseEntity>> mapList;
         private List<BackGround> backGrounds;
+        private List<UIEntity> _UIEntities;
         private Game game;
         private SpriteBatch spriteBatch;
         private Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
@@ -27,10 +28,12 @@ namespace GroupGame10.GameSystem
         internal List<BaseEntity> Entities { get => entities; set => entities = value; }
         internal List<List<BaseEntity>> MapList { get => mapList; set => mapList = value; }
         internal List<BackGround> BackGrounds { get => backGrounds; set => backGrounds = value; }
+        internal List<UIEntity> UIEntities { get => _UIEntities; set => _UIEntities = value; }
 
         public RenderManager(Game game) : base(game)
         {
             Entities = new List<BaseEntity>();
+            UIEntities = new List<UIEntity>();
             this.game = game;
             contentManager = game.Content;
             spriteBatch = new SpriteBatch(game.GraphicsDevice);
@@ -71,7 +74,7 @@ namespace GroupGame10.GameSystem
                 foreach (var a in list)
                 {
                     if (a is Space) continue;
-                    DrawTexture(a.Name, a.Rectangle);
+                    DrawTextureWithCamera(a.Name, a.Rectangle);
                 }
             }
             if (!(Entities is null))
@@ -80,11 +83,17 @@ namespace GroupGame10.GameSystem
                 {
                     
                     if (e.IsDeadFlag) continue;
-                    DrawTexture(e.Name, e.Rectangle);
+                    DrawTextureWithCamera(e.Name, e.Rectangle);
                 }
             }
             if (!(player is null))  spriteBatch.Draw(textures["player"], destinationRectangle: new Rectangle((int)(player.Rectangle.X-camera.X+24), player.Rectangle.Y+24, 64, 64), origin: new Vector2(24, 24), rotation: player.Rotation);
-       
+           if(UIEntities != null)
+            {
+                foreach(var ui in UIEntities)
+                {
+                    DrawTexture(ui.Name, ui.Position);
+                }
+            }
             spriteBatch.End();
             base.Draw(gameTime);
         }
@@ -129,7 +138,7 @@ namespace GroupGame10.GameSystem
 
             spriteBatch.Draw(textures[assetName], position, Color.White * alpha);
         }
-        public void DrawTexture(string assetName, Rectangle rectangle, float alpha = 1.0f)
+        public void DrawTextureWithCamera(string assetName, Rectangle rectangle, float alpha = 1.0f)
         {
             //デバッグモードの時のみ、画像描画前のアセット名チェック
             Debug.Assert(
@@ -222,7 +231,7 @@ namespace GroupGame10.GameSystem
         {
               
             Entities.Clear();
-
+            UIEntities.Clear();
             MapList= new List<List<BaseEntity>>();
             player = null;
         }

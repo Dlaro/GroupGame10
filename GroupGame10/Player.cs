@@ -109,12 +109,15 @@ namespace GroupGame10
         }
         public override void Hit(BaseEntity other)
         {
-            if (other.Rectangle.Intersects(new Rectangle(Position.ToPoint(), Size))) currCenter = other.GetType().ToString();
+            if (other.Rectangle.Intersects(new Rectangle(Position.ToPoint(),new Point(1,1)))) currCenter = other.GetType().ToString();
             switch (other)
             {
                 case Block a:
                     if (Math.Abs((a.Rectangle.Center.ToVector2() - Rectangle.Center.ToVector2()).Length()) < 64)
+                    {
+                        observers.ForEach(ob => ob.OnNotify("dead"));
                         IsDeadFlag = true;
+                    }
 
                     break;
                 case Enemy b:

@@ -14,21 +14,20 @@ namespace GroupGame10
         
         public Title(Game game)
         {
-            title = new UIEntity("logo", new Vector2(Screen.Width / 2, Screen.Height / 2));
-            start = new UIEntity("start", new Vector2(Screen.Width / 2, Screen.Height / 2));
+
         }
 
         public override void Draw(RenderManager renderManager)
         {
-            renderManager.Entities.Add(title);
-            renderManager.Entities.Add(start);
+            renderManager.UIEntities.Add(title);
+            renderManager.UIEntities.Add(start);
         }
 
         public override void Inilized()
         {
             IsEndFlag = false;
-            title = new UIEntity("logo",new Vector2(Screen.Width/2,Screen.Height/2));
-            start = new UIEntity("start", new Vector2(Screen.Width / 2, Screen.Height / 2));
+            title = new UIEntity("logo", Vector2.Zero);
+            start = new UIEntity("start", Vector2.Zero);
 
         }
 

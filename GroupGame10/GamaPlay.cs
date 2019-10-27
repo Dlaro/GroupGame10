@@ -28,6 +28,7 @@ namespace GroupGame10
             IsEndFlag = false;
             player = new Player();
             player.AddObserver((IObserver)game.Components.First(com=>com is SoundManager));
+            player.AddObserver((IObserver)game.Components.First(com => com is UIManager));
             player.AddObserver(score);
 
 

@@ -213,6 +213,9 @@ namespace GroupGame10.GameSystem
                 case "GetCoin":
                     PlaySE("coin");
                     break;
+                case "GetEnemy":
+                    PlaySE("coin");
+                    break;
                 default:
                     break;
             }
