@@ -10,22 +10,24 @@ namespace GroupGame10
 {
     class Title : BaseScene
     {
-        RenderManager renderManager;
+        UIEntity title,start;
+        
         public Title(Game game)
         {
-            renderManager = (RenderManager)game.Components.First(b => b is RenderManager);
+
         }
 
         public override void Draw(RenderManager renderManager)
         {
-     
+            renderManager.UIEntities.Add(title);
+            renderManager.UIEntities.Add(start);
         }
 
         public override void Inilized()
         {
             IsEndFlag = false;
-            renderManager.ClearList();
-            renderManager.BackGrounds.Add(new BackGround("item", Vector2.Zero, Vector2.Zero));
+            title = new UIEntity("logo", Vector2.Zero);
+            start = new UIEntity("start", Vector2.Zero);
 
         }
 

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+
 using GroupGame10.GameSystem;
 using GroupGame10.Base;
 /// <summary>
@@ -18,12 +19,13 @@ namespace GroupGame10
         // フィールド（このクラスの情報を記述）
         private GraphicsDeviceManager graphicsDeviceManager;//グラフィックスデバイスを管理するオブジェクト
       
-
+        
         private RenderManager renderManager;
         private MapManager mapManager;
         private ScenceManager scenceManager;
         private PhysicsManager spriteManager;
         private SoundManager soundManager;
+        private UIManager uIManager;
 
         /// <summary>
         /// コンストラクタ
@@ -48,13 +50,16 @@ namespace GroupGame10
             // この下にロジックを記述
 
             renderManager = new RenderManager(this);
-
             Components.Add(renderManager);
-            mapManager = new MapManager(this);
 
+            uIManager = new UIManager(this);
+            Components.Add(uIManager);
+
+            mapManager = new MapManager(this);
             Components.Add(mapManager);
+
             spriteManager = new PhysicsManager(this);
-            Components.Add(spriteManager);
+            Components.Add(spriteManager); 
             
             scenceManager = new ScenceManager(this);
             Components.Add(scenceManager);
@@ -93,7 +98,7 @@ namespace GroupGame10
                 soundManager.LoadSE(se);
             }
 
-
+            soundManager.PlayBGM("gamebgm");
             // この上にロジックを記述
         }
 

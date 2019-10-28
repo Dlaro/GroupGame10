@@ -17,31 +17,39 @@ namespace GroupGame10.GameSystem
         private List<BaseEntity> entities;
         private List<List<BaseEntity>> mapList;
         private List<BackGround> backGrounds;
+        private List<UIEntity> _UIEntities;
         private Game game;
         private SpriteBatch spriteBatch;
         private Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
         private ContentManager contentManager;
-        private Vector2 camera;
         Player player;
+        Camera camera2D;
         
         internal List<BaseEntity> Entities { get => entities; set => entities = value; }
         internal List<List<BaseEntity>> MapList { get => mapList; set => mapList = value; }
         internal List<BackGround> BackGrounds { get => backGrounds; set => backGrounds = value; }
+        internal List<UIEntity> UIEntities { get => _UIEntities; set => _UIEntities = value; }
 
         public RenderManager(Game game) : base(game)
         {
             Entities = new List<BaseEntity>();
+            UIEntities = new List<UIEntity>();
             this.game = game;
             contentManager = game.Content;
             spriteBatch = new SpriteBatch(game.GraphicsDevice);
-            camera = new Vector2();
+           
+            camera2D = new Camera(game);
+            game.Components.Add(camera2D);
             BackGrounds = new List<BackGround>();
             MapList = new List<List<BaseEntity>>();
 
         }
         public override void Initialize()
         {
-           
+            BackGrounds.Add(new BackGround("bg1", new Vector2(1024, 0), new Vector2(-2, 0)));
+            BackGrounds.Add(new BackGround("bg1", Vector2.Zero, new Vector2(-2, 0)));
+            BackGrounds.Add(new BackGround("bg2", Vector2.Zero, new Vector2(-1, 0)));
+            BackGrounds.Add(new BackGround("bg2", new Vector2(1024, 0), new Vector2(-1, 0)));
 
             base.Initialize();
         }
@@ -49,39 +57,52 @@ namespace GroupGame10.GameSystem
         public override void Update(GameTime gameTime)
         {
             if (!(BackGrounds is null)) BackGrounds.ForEach(bg => bg.Update(gameTime));
-            if (player != null)
-            {
-                camera = player.Position - new Vector2(256, 0);
-                camera.X = camera.X > 98*64-Screen.Width? 98 * 64 - Screen.Width : camera.X;
-            }
+     
           
 
             base.Update(gameTime);
         }
         public override void Draw(GameTime gameTime)
         {
+            spriteBatch.Begin();
+            if (!(BackGrounds is null)) BackGrounds.ForEach(bg => DrawTexture(bg.Name, bg.Position));
+            spriteBatch.End();
+            spriteBatch.Begin(transformMatrix:
+                  camera2D.Transform);
            
-            spriteBatch.Begin(blendState: BlendState.AlphaBlend);
-          if(!(BackGrounds is null))  BackGrounds.ForEach(bg => DrawTexture(bg.Name, bg.Position));
+
             foreach (var list in MapList)
             {
                 foreach (var a in list)
                 {
                     if (a is Space) continue;
-                    DrawTexture(a.Name, a.Rectangle);
+                    DrawTextureWithCamera(a.Name, a.Rectangle);
                 }
             }
             if (!(Entities is null))
             {
                 foreach (var e in Entities)
                 {
-                    
+
                     if (e.IsDeadFlag) continue;
-                    DrawTexture(e.Name, e.Rectangle);
+                    DrawTextureWithCamera(e.Name, e.Rectangle);
                 }
             }
-            if (!(player is null))  spriteBatch.Draw(textures["player"], destinationRectangle: new Rectangle((int)(player.Rectangle.X-camera.X+24), player.Rectangle.Y+24, 64, 64), origin: new Vector2(24, 24), rotation: player.Rotation);
-       
+            if (!(player is null)) spriteBatch.Draw(textures["player"], destinationRectangle: new Rectangle((int)(player.Rectangle.X ), player.Rectangle.Y , 64, 64), origin: new Vector2(24, 24), rotation: player.Rotation);
+            spriteBatch.End();
+
+            spriteBatch.Begin(blendState: BlendState.AlphaBlend);
+
+           
+
+
+            if (UIEntities != null)
+            {
+                foreach(var ui in UIEntities)
+                {
+                    DrawTexture(ui.Name, ui.Position);
+                }
+            }
             spriteBatch.End();
             base.Draw(gameTime);
         }
@@ -89,7 +110,7 @@ namespace GroupGame10.GameSystem
 
         public void Add(BaseEntity entity)
         {
-            if (entity is Player) { player = (Player)entity; return; }
+            if (entity is Player) { player = (Player)entity; player.AddObserver(camera2D); camera2D.Focus=player; return; }
             Entities.Add(entity);
         }
         public void LoadContent(string assetName, string filepath = "./")
@@ -126,14 +147,14 @@ namespace GroupGame10.GameSystem
 
             spriteBatch.Draw(textures[assetName], position, Color.White * alpha);
         }
-        public void DrawTexture(string assetName, Rectangle rectangle, float alpha = 1.0f)
+        public void DrawTextureWithCamera(string assetName, Rectangle rectangle, float alpha = 1.0f)
         {
             //デバッグモードの時のみ、画像描画前のアセット名チェック
             Debug.Assert(
                 textures.ContainsKey(assetName),
                 "描画時にアセット名の指定を間違えたか、" +
                 "画像の読み込み自体できていません");
-            rectangle.X = rectangle.X - (int)camera.X;
+            
             spriteBatch.Draw(textures[assetName], rectangle, Color.White * alpha);
         }
         /// <summary>
@@ -217,10 +238,9 @@ namespace GroupGame10.GameSystem
         #endregion  画像の描画
         public void ClearList()
         {
-            BackGrounds.Clear();
-            
+              
             Entities.Clear();
-
+            UIEntities.Clear();
             MapList= new List<List<BaseEntity>>();
             player = null;
         }

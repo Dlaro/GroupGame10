@@ -39,7 +39,7 @@ namespace GroupGame10.GameSystem
                     return;
                 }
             }
-            if (entities != null)  entities.ForEach(b => b.Update(gameTime));
+            
             if(mapList != null)
             {
                 foreach (var list in mapList)
@@ -55,6 +55,7 @@ namespace GroupGame10.GameSystem
             {
                 list.RemoveAll(a => a.IsDeadFlag);
             }
+            if (entities != null) entities.ForEach(b => b.Update(gameTime));
 
             base.Update(gameTime);
         }

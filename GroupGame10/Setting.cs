@@ -40,6 +40,23 @@ namespace GroupGame10
              "B110",
              "E120",
              "I999",
+             "0",
+             "1",
+             "2",
+             "3",
+             "4",
+             "5",
+             "6",
+             "7",
+             "8",
+             "9",
+             "logo",
+             "start",
+             "GAMECLEAR",
+             "GAMEOVER",
+             "1star",
+             "2star",
+             "3star",
         };
         public static readonly string[] MapLoad =
             {
@@ -71,12 +88,15 @@ namespace GroupGame10
         public static readonly string[] SELoad =
         {
             "water",
-            "coin"
+            "coin",
+            "dead",
+            "clear",
+            "over"
         };
 
         public static readonly string[] BGMLoad =
 {
-
+            "gamebgm"
         };
 
 

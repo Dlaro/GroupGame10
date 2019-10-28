@@ -13,7 +13,7 @@ namespace GroupGame10
     {
 
         Player player;
-
+        Score score;
         Game game;
         public GamePlay(Game game, string name)
         {
@@ -24,26 +24,26 @@ namespace GroupGame10
 
         public override void Inilized()
         {
+            score = new Score(game);
             IsEndFlag = false;
-            player = new Player((SoundManager)game.Components.First(b=>b is SoundManager));
-
+            player = new Player();
+            player.AddObserver((IObserver)game.Components.First(com=>com is SoundManager));
+            player.AddObserver((IObserver)game.Components.First(com => com is UIManager));
+            player.AddObserver(score);
 
 
         }
 
         public override void Update(GameTime gameTime)
         {
-
+            score.Update(gameTime);
             if (Input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F)) IsEndFlag = true;
         }
         public override void Draw(RenderManager renderManager)
         {
 
             renderManager.Add(player);
-            renderManager.BackGrounds.Add(new BackGround("bg1", new Vector2(1024, 0), new Vector2(-2, 0)));
-            renderManager.BackGrounds.Add(new BackGround("bg1", Vector2.Zero, new Vector2(-2, 0)));
-            renderManager.BackGrounds.Add(new BackGround("bg2", Vector2.Zero, new Vector2(-1, 0)));
-            renderManager.BackGrounds.Add(new BackGround("bg2", new Vector2(1024, 0), new Vector2(-1, 0)));
+            
         }
         public override void Physics(PhysicsManager physicsManager)
         {
