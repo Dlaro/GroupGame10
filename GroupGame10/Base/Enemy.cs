@@ -9,9 +9,10 @@ using Microsoft.Xna.Framework;
 
 namespace GroupGame10
 {
-    class Enemy : BaseEntity,ICloneable
+    class Enemy : BaseEntity, ICloneable
     {
-        public Enemy(string name,Vector2 position,Point size)
+        int current;
+        public Enemy(string name, Vector2 position, Point size)
         {
             Size = size;
             Name = name;
@@ -20,9 +21,9 @@ namespace GroupGame10
 
         public Enemy(Enemy other)
         {
-           this.Size = other.Size;
-           this.Name = other.Name;
-           this.Position = other.Position;
+            this.Size = other.Size;
+            this.Name = other.Name;
+            this.Position = other.Position;
 
         }
         public object Clone()
@@ -37,6 +38,22 @@ namespace GroupGame10
 
         public override void Update(GameTime gameTime)
         {
+            current++;
+            if (current >= 10)
+            {
+                if (Name.EndsWith("a"))
+                {
+                    Name = Name.Replace("a", "b");
+
+                    return;
+                }
+                if (Name.EndsWith("b"))
+                {
+                    Name = Name.Replace("b", "a");
+                    return;
+                }
+                current = 0;
+            }
 
         }
         public override void Hit(BaseEntity other)

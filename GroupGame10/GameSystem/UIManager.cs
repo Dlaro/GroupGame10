@@ -14,7 +14,9 @@ namespace GroupGame10.GameSystem
         RenderManager renderManager;
         UIEntity gameover;
         UIEntity gameclear;
-        UIEntity star;
+        Score score;
+        UIEntity coin;
+        UIEntity ready;
         bool isShaking=false;
         float current;
         float cyc=0.8f;
@@ -22,24 +24,28 @@ namespace GroupGame10.GameSystem
         int max = 0;
         public int Sum { get => sum; set => sum = value; }
         public int Max { get => max; set => max = value; }
+        public bool IsShaking { get => isShaking; set => isShaking = value; }
+
         public UIManager(Game game) : base(game)
         {
+            score = new Score("score", new Vector2(128, 0));
             gameover = new UIEntity("GAMEOVER",Vector2.Zero);
             gameclear = new UIEntity("GAMECLEAR", Vector2.Zero);
-            star = new UIEntity("2star", Vector2.Zero);
+            ready = new UIEntity("ready", Vector2.Zero);
+            coin = new UIEntity("I84", Vector2.Zero,Vector2.Zero,new Rectangle(Point.Zero,new Point(128,128)));
             renderManager =(RenderManager) game.Components.First(c => c is RenderManager);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            if (isShaking)
+            if (IsShaking)
             {
                 current +=(float) gameTime.ElapsedGameTime.TotalSeconds;
                 if (current >= cyc)
                 {
                     renderManager.UIEntities.Add(gameover);
-                    renderManager.UIEntities.Add(star);
-                    isShaking = false;
+  
+                    IsShaking = false;
                 }
                 
             }
@@ -48,27 +54,34 @@ namespace GroupGame10.GameSystem
 
         public override void Update(GameTime gameTime)
         {
-            if(isShaking)
+            score.Num=sum;
             base.Update(gameTime);
         }
 
         public void ClearList()
         {
-            throw new NotImplementedException();
+
+            sum = 0;
         }
 
         public void OnNotify(string file)
         {
             switch (file)
             {
+                case "begin":
+                    renderManager.UIEntities.Add(score);
+                    renderManager.UIEntities.Add(coin);
+                    renderManager.UIEntities.Add(ready);
+                    break;
+
                 case "dead":
 
-                    isShaking = true;
+                    IsShaking = true;
                     current = 0;
                     break;
                 case "clear":
                     renderManager.UIEntities.Add(gameclear);
-                    renderManager.UIEntities.Add(star);
+                   
                     break;
                 case "GetCoin":
                     sum++;

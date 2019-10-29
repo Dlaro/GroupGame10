@@ -110,7 +110,7 @@ namespace GroupGame10
         {
             // この下にロジックを記述
 
-
+            soundManager.StopBGM();
             // この上にロジックを記述
         }
 

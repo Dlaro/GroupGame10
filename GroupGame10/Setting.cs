@@ -15,13 +15,13 @@ namespace GroupGame10
         GamePlay03,
         GamePlay04,
         GamePlay05,
-        GamePlay06,
-        GamePlay07,
+        //GamePlay06,
+        //GamePlay07,
         Ending
     }
     static class Setting
     {
-        public static readonly int MaxScene = 9;//scene合計
+        public static readonly int MaxScene = 7;//scene合計
         public static readonly string[] TexturesLoad =
             {
             "player",
@@ -30,16 +30,24 @@ namespace GroupGame10
             "item",
             "bg1",
             "bg2",
-             "B310",
-             "E320",
-             "S200",
-             "B210",
-             "B211",
-             "E220",
-             "S100",
-             "B110",
-             "E120",
-             "I999",
+            "bg3",
+            "bg4",           
+             "B74",
+             "B75",
+             "B163",
+             "S386",
+             "S417",
+             "E88a",
+             "E88b",
+             "A394",
+             "C270",
+             "D181a",
+             "D181b",
+             "I84",
+             "I84a",
+             "I84b",
+             "I84c",
+             "I84d",
              "0",
              "1",
              "2",
@@ -57,6 +65,7 @@ namespace GroupGame10
              "1star",
              "2star",
              "3star",
+             "ready",
         };
         public static readonly string[] MapLoad =
             {
@@ -65,23 +74,25 @@ namespace GroupGame10
             "GamePlay03.csv",
             "GamePlay04.csv",
             "GamePlay05.csv",
-            "GamePlay06.csv",
-            "GamePlay07.csv",
+            //"GamePlay06.csv",
+            //"GamePlay07.csv",
         };
 
         public static readonly string[] MapBlock =
         {
 
-             "B310",
-             "E320",
-             "S200",
-             "B210",
-             "B211",
-             "E220",
-             "S100",
-             "B110",
-             "E120",
-             "I999",
+                  "B74",
+             "B75",
+             "B163",
+             "S386",
+             "S417",
+             "E88a",
+             "E88b",
+             "A394",
+             "C270",
+             "D181a",
+             "D181b",
+             "I84",
              "0"
         };
 

@@ -9,13 +9,20 @@ namespace GroupGame10
 {
     struct StructParticle
     {
-        int numMax;
-
-
-
+        Point size;
+        float curTime;
+       
         public StructParticle(Vector2 player)
         {
-            numMax = 1000;
+            size = new Point(32, 32);
+            curTime = 0;
+            
+
+        }
+        public void Update(GameTime gameTime)
+        {
+            curTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+         //   if (curTime >= 0.2f)size= size * 0.8f;
         }
     }
 }

@@ -71,7 +71,7 @@ namespace GroupGame10.GameSystem
         public void ClearList()
         {
             Initialize();
-            Enabled = false;
+            
         }
     }
 }

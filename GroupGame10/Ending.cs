@@ -10,7 +10,6 @@ namespace GroupGame10
 {
     class Ending : BaseScene
     {
-        RenderManager renderManager;
         public Ending(Game game)
         {
            

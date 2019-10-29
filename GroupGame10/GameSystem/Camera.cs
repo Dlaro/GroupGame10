@@ -14,6 +14,7 @@ namespace GroupGame10.GameSystem
     {
        
             private Vector2 _position;
+        private Vector2 _focus;
             protected float _viewportHeight;
             protected float _viewportWidth;
 
@@ -35,9 +36,12 @@ namespace GroupGame10.GameSystem
             public float Scale { get; set; }
             public Vector2 ScreenCenter { get; protected set; }
             public Matrix Transform { get; set; }
-            public Player Focus { get; set; }
+            public Vector2 Focus {
+            get { return _focus; }
+            set { _focus = value; }
+        }
             public float MoveSpeed { get; set; }
-
+        Player player;
             #endregion
 
             /// <summary>
@@ -52,6 +56,7 @@ namespace GroupGame10.GameSystem
                 Scale = 1;
                 MoveSpeed = 5f;
             Position = new Vector2(512, 320);
+            Focus = new Vector2(512, 320);
                 base.Initialize();
             }
 
@@ -68,16 +73,20 @@ namespace GroupGame10.GameSystem
                             Matrix.CreateScale(new Vector3(Scale, Scale, Scale));
 
                 Origin = ScreenCenter / Scale;
-
-            if (Focus != null)
+            if(player != null)
             {
+                _focus.X = player.Position.X+312;
+            }
+            
                 // Move the Camera to the position that it needs to go
                 var delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                _position.X += (Focus.Position.X - Position.X+312) * MoveSpeed * delta;
-                if (_position.X < 512) _position.X = 512;
+            // _position.X += (Focus.X - Position.X+312) * MoveSpeed * delta;
+            _position.X = Focus.X;
+            _position.Y += (Focus.Y - Position.Y) * MoveSpeed * delta;
+            if (_position.X < 512) _position.X = 512;
                 if (_position.X >92*64 ) _position.X = 92*64;
-            }
+            
             Shake(gameTime);
                 base.Update(gameTime);
             }
@@ -146,6 +155,10 @@ namespace GroupGame10.GameSystem
         public void OnNotify(string file)
         {
             if (file == "dead") DoShake();
+        }
+        public void GetPlayer(Player player)
+        {
+            this.player = player;
         }
     }
 }

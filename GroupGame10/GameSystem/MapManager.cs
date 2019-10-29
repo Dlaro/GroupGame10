@@ -41,9 +41,12 @@ namespace GroupGame10.GameSystem
             {
                 if (entity.StartsWith("S")) { entityDict.Add(entity, new Sea(entity, new Vector2(32, 32), new Point(64, 64))); continue; }
                 if (entity.StartsWith("B")) { entityDict.Add(entity, new Block(entity, new Vector2(32, 32), new Point(64, 64))); continue; }
-                if (entity.StartsWith("E")) { entityDict.Add(entity, new Enemy(entity, new Vector2(32, 32), new Point(64, 64))); continue; }
-                if (entity.StartsWith("I")) { entityDict.Add(entity, new Item(entity, new Vector2(32, 32), new Point(64, 64))); continue; }
+                if (entity.StartsWith("E")) { entityDict.Add(entity+"a", new Enemy(entity, new Vector2(32, 32), new Point(64, 64))); continue; }
+                if (entity.StartsWith("I")) { entityDict.Add(entity, new Item("I84a", new Vector2(32, 32), new Point(64, 64))); continue; }
                 if (entity.StartsWith("0")) { entityDict.Add(entity, new Space(entity, new Vector2(32, 32), new Point(64, 64))); continue; }
+                if (entity.StartsWith("A")) { entityDict.Add(entity, new Item("I84a", new Vector2(32, 32), new Point(64, 64))); continue; }
+                if (entity.StartsWith("C")) { entityDict.Add(entity, new Item("I84a", new Vector2(32, 32), new Point(64, 64))); continue; }
+                if (entity.StartsWith("D")) { entityDict.Add(entity + "a", new Enemy(entity, new Vector2(32, 32), new Point(64, 64))); continue; }
             }
 
         }
@@ -65,14 +68,39 @@ namespace GroupGame10.GameSystem
  
                 try
                 {
-                    BaseEntity work = (BaseEntity)entityDict[s].Clone();
+                    BaseEntity work;
+                    if (s.StartsWith("A"))
+                    {
+                        work = (BaseEntity)entityDict["S417"].Clone();
+                        work.Position = (new Vector2(colCnt * work.Size.X + 32, lineCnt * work.Size.Y + 32));
+                        workList.Add(work);
+                    }
+                    if (s.StartsWith("C"))
+                    {
+                        work = (BaseEntity)entityDict["S384"].Clone();
+                        work.Position = (new Vector2(colCnt * work.Size.X + 32, lineCnt * work.Size.Y + 32));
+                        workList.Add(work);
+                    }
+                    if (s.StartsWith("D"))
+                    {
+                        work = (BaseEntity)entityDict["S417"].Clone();
+                        work.Position = (new Vector2(colCnt * work.Size.X + 32, lineCnt * work.Size.Y + 32));
+                        workList.Add(work);
+                    }
+                    if (s.StartsWith("I"))
+                    {
+                        work = (BaseEntity)entityDict["0"].Clone();
+                        work.Position = (new Vector2(colCnt * work.Size.X + 32, lineCnt * work.Size.Y + 32));
+                        workList.Add(work);
+                    }
+                    work = (BaseEntity)entityDict[s].Clone();
 
                     //何行何列のデータの座標を計算し登録
                     work.Position = (new Vector2(colCnt * work.Size.X+32, lineCnt * work.Size.Y+32));
 
                     //座標設置したのでリストに登録
                     workList.Add(work);
-
+                  
                 }
                 catch (Exception e)
                 {

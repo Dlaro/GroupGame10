@@ -34,7 +34,7 @@ namespace GroupGame10
    
         public override void Update(GameTime gameTime)
         {
-            if (Input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.F)) IsEndFlag = true;
+            if (Input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Space)) IsEndFlag = true;
         }
         public override void Physics(PhysicsManager physicsManager)
         {

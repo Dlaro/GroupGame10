@@ -13,7 +13,7 @@ namespace GroupGame10
     class Player : BaseEntity
     {
 
-        enum State { Dive, Rise, Air, Surface }
+        enum State { Dive, Rise, Air, Surface ,Water}
         State currentState = State.Air;
         Vector2 _velocity;
         float rotation;
@@ -23,6 +23,7 @@ namespace GroupGame10
         int numObservers = 0;
         string currCenter;
         string preCenter;
+        bool isClear=false;
 
         public Player()
         {
@@ -54,22 +55,25 @@ namespace GroupGame10
             }
         }
 
+        public bool IsClear { get => isClear; set => isClear = value; }
+
         public override void Inilized()
         {
-
+            observers.ForEach(ob => ob.OnNotify("begin"));
         }
 
         public override void Update(GameTime gameTime)
         {
+            if (position.X > 98 * 64) { observers.ForEach(ob => ob.OnNotify("clear")); IsClear = true; IsDeadFlag = true; }
 
-
-            if (preCenter != currCenter && currCenter == "GroupGame10.Sea")
+            if (preCenter != currCenter &&currentState!=State.Rise &&currCenter == "S386")
             {
                 currentState = State.Surface;
                 observers.ForEach(ob => ob.OnNotify("IntoWater"));
             }
+            if (currentState != State.Rise && currCenter == "S417") currentState = State.Water;
             if (Input.IsKeyUp(Keys.Space)) currentState = State.Rise;
-            if (currCenter == "GroupGame10.Space") currentState = State.Air;
+            if (currCenter != "S417"&& currCenter != "S386") currentState = State.Air;
             if (Input.GetKeyState(Keys.Space))
             {
                 currentState = State.Dive;
@@ -80,13 +84,13 @@ namespace GroupGame10
             {
                 case State.Dive:
                     velocity.Y = (velocity.Y < 0 ? 0 : velocity.Y);
-                    velocity.Y += 1f * b;
+                    velocity.Y +=1f * b;
                     break;
                 case State.Rise:
-                    velocity.Y = (velocity.Y > -15 ? -15 : velocity.Y);
+                    velocity.Y = (velocity.Y > -10 ? -10 : velocity.Y);
                     velocity.Y -= 1f * b;
 
-                    velocity.Y = (velocity.Y < -22 ? -22 : velocity.Y);
+                   
                     break;
                 case State.Air:
 
@@ -97,10 +101,17 @@ namespace GroupGame10
                     velocity.Y = 0;
 
                     break;
+                case State.Water:
+                    velocity.Y = -5;
+                    break;
             }
+            velocity.Y = (velocity.Y < -20 ? -20 : velocity.Y);
             Rotation = (float)Math.Atan2((double)velocity.Y, (double)velocity.X) / 2;
             Position += velocity;
             preCenter = currCenter;
+            Console.WriteLine(velocity.Y);
+            if(currCenter=="I84") Console.WriteLine(currCenter);
+
         }
 
         private Vector2 Center()
@@ -109,11 +120,13 @@ namespace GroupGame10
         }
         public override void Hit(BaseEntity other)
         {
-            if (other.Rectangle.Intersects(new Rectangle(Position.ToPoint(),new Point(1,1)))) currCenter = other.GetType().ToString();
+            var rec = other.Rectangle;
+            var _rec = new Rectangle(rec.Left, rec.Center.Y-24, 64, 48);
+            if (_rec.Intersects(new Rectangle(Position.ToPoint(),new Point(1,1)))) currCenter = other.Name;
             switch (other)
             {
                 case Block a:
-                    if (Math.Abs((a.Rectangle.Center.ToVector2() - Rectangle.Center.ToVector2()).Length()) < 64)
+                    if (Math.Abs((a.Rectangle.Center.ToVector2() - Rectangle.Center.ToVector2()).Length()) < 48)
                     {
                         observers.ForEach(ob => ob.OnNotify("dead"));
                         IsDeadFlag = true;
@@ -156,6 +169,8 @@ namespace GroupGame10
             observers.Remove(ob);
             numObservers--;
         }
+
+
 
     }
 }
