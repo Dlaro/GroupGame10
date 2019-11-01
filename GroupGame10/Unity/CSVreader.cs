@@ -41,11 +41,7 @@ namespace GroupGame10.Util
                         stringData.Add(values);
 
                         //出力する
-                        foreach(var v in values)
-                        {
-                            System.Console.Write("{0}", v);
-                        }
-                        System.Console.WriteLine();
+                        
                     }
                 }
             }catch(SystemException e)
@@ -121,5 +117,6 @@ namespace GroupGame10.Util
             return result;
 
         }
+
     }
 }

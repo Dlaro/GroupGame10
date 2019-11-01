@@ -14,6 +14,10 @@ namespace GroupGame10
         {
 
         }
+        public Score(string name, Vector2 position,int num) : base(name, position)
+        {
+            this.num = num;
+        }
 
         public int Num { get => num; set => num = value; }
     }

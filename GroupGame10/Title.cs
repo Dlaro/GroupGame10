@@ -29,6 +29,7 @@ namespace GroupGame10
             title = new UIEntity("logo", Vector2.Zero);
             start = new UIEntity("start", Vector2.Zero);
 
+
         }
 
    

@@ -39,6 +39,7 @@ namespace GroupGame10
             Content.RootDirectory = "Content";
             graphicsDeviceManager.PreferredBackBufferWidth = Screen.Width;
             graphicsDeviceManager.PreferredBackBufferHeight = Screen.Height;
+            Window.Title = "Wave Bird";
             
         }
 
@@ -98,6 +99,7 @@ namespace GroupGame10
                 soundManager.LoadSE(se);
             }
 
+            soundManager.ChangeBGMLoopFlag(true);
             soundManager.PlayBGM("gamebgm");
             // この上にロジックを記述
         }
@@ -130,11 +132,11 @@ namespace GroupGame10
 
             // この下に更新ロジックを記述
             Input.Update(gameTime);
-            if (Input.IsKeyDown(Keys.Enter))
-            {
-                scenceManager.Enabled = true;
-                scenceManager.Initialize();
-            }
+            //if (Input.IsKeyDown(Keys.Enter))
+            //{
+            //    scenceManager.Enabled = true;
+            //    scenceManager.Initialize();
+            //}
             // この上にロジックを記述
             base.Update(gameTime); // 親クラスの更新処理呼び出し。絶対に消すな！！
         }

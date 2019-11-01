@@ -17,13 +17,14 @@ namespace GroupGame10.GameSystem
         Score score;
         UIEntity coin;
         UIEntity ready;
+        UIEntity xx;
         bool isShaking=false;
         float current;
         float cyc=0.8f;
         int sum = 0;
-        int max = 0;
+        int total = 0;
         public int Sum { get => sum; set => sum = value; }
-        public int Max { get => max; set => max = value; }
+        public int Total { get => total; set => total = value; }
         public bool IsShaking { get => isShaking; set => isShaking = value; }
 
         public UIManager(Game game) : base(game)
@@ -33,6 +34,7 @@ namespace GroupGame10.GameSystem
             gameclear = new UIEntity("GAMECLEAR", Vector2.Zero);
             ready = new UIEntity("ready", Vector2.Zero);
             coin = new UIEntity("I84", Vector2.Zero,Vector2.Zero,new Rectangle(Point.Zero,new Point(128,128)));
+            xx = new UIEntity("X", new Vector2(64, 0));
             renderManager =(RenderManager) game.Components.First(c => c is RenderManager);
         }
 
@@ -54,13 +56,14 @@ namespace GroupGame10.GameSystem
 
         public override void Update(GameTime gameTime)
         {
-            score.Num=sum;
+            score.Num=sum+total;
             base.Update(gameTime);
         }
 
         public void ClearList()
         {
 
+            total = 0;
             sum = 0;
         }
 
@@ -71,17 +74,21 @@ namespace GroupGame10.GameSystem
                 case "begin":
                     renderManager.UIEntities.Add(score);
                     renderManager.UIEntities.Add(coin);
-                    renderManager.UIEntities.Add(ready);
+                    renderManager.UIEntities.Add(xx);
+                   
+                   
                     break;
 
                 case "dead":
 
                     IsShaking = true;
                     current = 0;
+                    sum = 0;
                     break;
                 case "clear":
                     renderManager.UIEntities.Add(gameclear);
-                   
+                    total += sum;
+                    sum = 0;
                     break;
                 case "GetCoin":
                     sum++;

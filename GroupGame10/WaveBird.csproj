@@ -69,6 +69,7 @@
     <Compile Include="GameSystem\ScenceManager.cs" />
     <Compile Include="Score.cs" />
     <Compile Include="Sea.cs" />
+    <Compile Include="SmallScore.cs" />
     <Compile Include="StructParticle.cs" />
     <Compile Include="Title.cs" />
     <Compile Include="Setting.cs" />

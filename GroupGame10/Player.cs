@@ -64,7 +64,7 @@ namespace GroupGame10
 
         public override void Update(GameTime gameTime)
         {
-            if (position.X > 98 * 64) { observers.ForEach(ob => ob.OnNotify("clear")); IsClear = true; IsDeadFlag = true; }
+            if (position.X > 98 * 64) { observers.ForEach(ob => ob.OnNotify("clear")); IsClear = true;IsDeadFlag = true; }
 
             if (preCenter != currCenter &&currentState!=State.Rise &&currCenter == "S386")
             {
@@ -109,8 +109,7 @@ namespace GroupGame10
             Rotation = (float)Math.Atan2((double)velocity.Y, (double)velocity.X) / 2;
             Position += velocity;
             preCenter = currCenter;
-            Console.WriteLine(velocity.Y);
-            if(currCenter=="I84") Console.WriteLine(currCenter);
+
 
         }
 
@@ -135,7 +134,11 @@ namespace GroupGame10
                     break;
                 case Enemy b:
                     b.Hit(this);
-                    observers.ForEach(ob => ob.OnNotify("GetEnemy"));
+                    if (Math.Abs((b.Rectangle.Center.ToVector2() - Rectangle.Center.ToVector2()).Length()) < 48)
+                    {
+                        observers.ForEach(ob => ob.OnNotify("dead"));
+                        IsDeadFlag = true;
+                    }
                     break;
                 case Item c:
                     c.Hit(this);

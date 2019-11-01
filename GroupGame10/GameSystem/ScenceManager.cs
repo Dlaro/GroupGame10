@@ -22,9 +22,9 @@ namespace GroupGame10.GameSystem
         private UIManager uIManager;
         private Scecne curr;
         private Camera camera;
-        int currentCamera = 0,currentPhy=0;
+        int currentCamera = 0, currentKye = 0;
         bool isChanging = false;
-
+        Score time;
         public ScenceManager(Game game) : base(game)
         {
             scences = new Dictionary<Scecne, BaseScene>();
@@ -35,6 +35,7 @@ namespace GroupGame10.GameSystem
             camera = (Camera)game.Components.First(b => b is Camera);
             scences.Add(Scecne.Title, new Title(game));
             scences.Add(Scecne.Ending, new Ending(game));
+            time = new Score("time", new Vector2(480, 560));
             for (int i = 1; i < Setting.MaxScene - 1; i++)
             {
 
@@ -46,7 +47,7 @@ namespace GroupGame10.GameSystem
         }
         public override void Initialize()
         {
-           NextScene(Scecne.Title);
+            NextScene(Scecne.Title);
 
             base.Initialize();
         }
@@ -58,13 +59,28 @@ namespace GroupGame10.GameSystem
             NextScene();
             //start
 
-            if (!isChanging && !physicsManager.Enabled && CurrentSence.IsPlayer && Input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Space)) { physicsManager.Enabled = true;renderManager.UIEntities.RemoveAll(ui=>ui.Name=="ready"); }
+            if (!isChanging && !physicsManager.Enabled && CurrentSence.IsPlayer && Input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Space)) { physicsManager.Enabled = true; renderManager.UIEntities.RemoveAll(ui => ui.Name.StartsWith("F")); }
             //next
-            if (!isChanging && !physicsManager.Enabled && CurrentSence.IsClear && Input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Space)) { CurrentSence.IsEndFlag=true; return; }
+            if (!isChanging && !physicsManager.Enabled && CurrentSence.IsClear && !CurrentSence.IsPlayer && Input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Space)) { CurrentSence.IsEndFlag = true; return; }
             //restart
-            if (!isChanging&&!physicsManager.Enabled &&!CurrentSence.IsPlayer&&!uIManager.IsShaking&& Input.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Space))
+            if (!CurrentSence.IsClear && !isChanging && !physicsManager.Enabled && !CurrentSence.IsPlayer  && !uIManager.IsShaking && Input.IsKey(Microsoft.Xna.Framework.Input.Keys.Space))
             {
-                NextScene(curr);
+                time.Num =3- currentKye / 60;
+                if (!renderManager.UIEntities.Contains(time)) renderManager.UIEntities.Add(time);
+
+                
+                currentKye++;
+                if (currentKye >= 180)
+                {
+                    curr = 0;
+                    NextScene(curr);
+                    currentKye = 0;
+                }
+
+            }
+            if (currentKye != 0 && Input.IsKeyUp(Microsoft.Xna.Framework.Input.Keys.Space))
+            {
+                NextScene(curr); currentKye = 0;
             }
             CurrentSence.Update(gameTime);
             base.Update(gameTime);
@@ -90,11 +106,11 @@ namespace GroupGame10.GameSystem
             renderManager.ClearList();
             mapManager.ClearList();
             physicsManager.ClearList();
-            
+
 
         }
         public void NextScene(Scecne scence)
-        {
+        {   
 
             CameraDown();
             renderManager.ClearList();
@@ -110,14 +126,16 @@ namespace GroupGame10.GameSystem
             renderManager.ClearList();
             mapManager.ClearList();
             physicsManager.ClearList();
-            uIManager.ClearList();
+            
             CurrentSence.Inilized();
+            if(CurrentSence is Title) uIManager.ClearList();
             if (CurrentSence is GamePlay)
             {
-                renderManager.MapList = mapManager.GetMap(CurrentSence.Name + ".csv");
+                renderManager.SetMap( mapManager.GetMap(CurrentSence.Name + ".csv"));
                 physicsManager.MapList = renderManager.MapList;
                 CurrentSence.Physics(physicsManager);
                 physicsManager.Enabled = false;
+                renderManager.UIEntities.Add(new UIEntity("F" + (int)curr, Vector2.Zero));
             }
             CurrentSence.Draw(renderManager);
 

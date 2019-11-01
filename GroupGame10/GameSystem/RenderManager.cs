@@ -62,15 +62,7 @@ namespace GroupGame10.GameSystem
         {
 
             if (!(BackGrounds is null)) BackGrounds.ForEach(bg => bg.Update(gameTime));
-            foreach (var list in MapList)
-            {
-                foreach (var a in list)
-                {
-                    if (a is Space) continue;
-                    a.Update(gameTime);
-                }
-            }
-
+           
             base.Update(gameTime);
         }
         public override void Draw(GameTime gameTime)
@@ -97,7 +89,7 @@ namespace GroupGame10.GameSystem
                     DrawTextureWithCamera(e.Name, e.Rectangle);
                 }
             }
-            if (!(player is null)) spriteBatch.Draw(textures["player"], destinationRectangle: new Rectangle((int)(player.Rectangle.X), player.Rectangle.Y, 64, 64), origin: new Vector2(24, 24), rotation: player.Rotation);
+            if (!(player is null)) spriteBatch.Draw(textures["player"], destinationRectangle: new Rectangle((int)(player.Rectangle.X), player.Rectangle.Y, 64, 64), origin: new Vector2(64, 64), rotation: player.Rotation);
             spriteBatch.End();
 
             spriteBatch.Begin(blendState: BlendState.AlphaBlend);
@@ -114,7 +106,12 @@ namespace GroupGame10.GameSystem
                         DrawNumber(ui.Position, ((Score)ui).Num);
                         continue;
                     }
-                        DrawTexture(ui.Name, ui.Position);
+                    if (ui is SmallScore)
+                    {
+                        DrawNumber(ui.Rectangle, ((SmallScore)ui).Num);
+                        continue;
+                    }
+                    DrawTexture(ui.Name, ui.Position);
 
                 }
             }
@@ -122,7 +119,22 @@ namespace GroupGame10.GameSystem
             base.Draw(gameTime);
         }
 
+        public void SetMap(List<List<BaseEntity>> mapList)
+        {
+            this.mapList = mapList;
+            foreach (var list in MapList)
+            {
+                foreach (var a in list)
+                {
+                    if (a is Space) continue;
+                    if (a is Block) continue;
+                    if (a is Sea) continue;
+                    entities.Add(a);
+                }
+            }
+        }
 
+    
         public void Add(BaseEntity entity)
         {
             if (entity is Player) { player = (Player)entity; player.AddObserver(camera2D); camera2D.GetPlayer(player); return; }
@@ -287,6 +299,36 @@ namespace GroupGame10.GameSystem
 
                 //1文字描画したら1桁分右にずらす
                 position.X += width;
+            }
+        }
+        public void DrawNumber(
+
+           Rectangle rec,
+           int number,
+           float alpha = 1.0f)
+        {
+
+            //マイナスの数は0
+            if (number < 0)
+            {
+                number = 0;
+            }
+
+            int width = 16;//画像横幅
+
+            //数字を文字列化し、1文字ずつ取り出す
+            foreach (var n in number.ToString())
+            {
+                //数字のテクスチャが数字1つにつき幅32高さ64
+                //文字と文字を引き算し、整数値を取得している
+                spriteBatch.Draw(
+                    textures[n.ToString()],
+                    rec,
+
+                    Color.White);
+
+                //1文字描画したら1桁分右にずらす
+                rec.X += width;
             }
         }
 

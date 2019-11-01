@@ -17,6 +17,8 @@ namespace GroupGame10.GameSystem
         Dictionary<string, SoundEffect> SEs;
         Dictionary<string, Song> BGMs;
         string currentBGM;
+        int current;
+        bool isGameOver=false;
         ContentManager contentManager;
         public SoundManager(Game game) : base(game)
         {
@@ -32,7 +34,16 @@ namespace GroupGame10.GameSystem
 
         public override void Update(GameTime gameTime)
         {
-
+            if (isGameOver)
+            {
+                current++;
+                if (current >= 40)
+                {
+                    isGameOver = false;
+                    current = 0;
+                    PlaySE("over");
+                }
+            }
 
             base.Update(gameTime);
         }
@@ -218,6 +229,10 @@ namespace GroupGame10.GameSystem
                     break;
                 case "dead":
                     PlaySE("dead");
+                    isGameOver = true;
+                    break;
+                case "clear":
+                    PlaySE("clear");
                     break;
                 default:
                     break;

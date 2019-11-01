@@ -94,6 +94,11 @@ namespace GroupGame10
             return currentKey.IsKeyDown(key) && !previousKey.IsKeyDown(key);
         }
 
+        public static bool IsKey(Keys key)
+        {
+            return currentKey.IsKeyDown(key);
+        }
+
         public static bool IsKeyUp(Keys key)
         {
             return !currentKey.IsKeyDown(key) && previousKey.IsKeyDown(key);

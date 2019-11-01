@@ -41,12 +41,12 @@ namespace GroupGame10.GameSystem
             {
                 if (entity.StartsWith("S")) { entityDict.Add(entity, new Sea(entity, new Vector2(32, 32), new Point(64, 64))); continue; }
                 if (entity.StartsWith("B")) { entityDict.Add(entity, new Block(entity, new Vector2(32, 32), new Point(64, 64))); continue; }
-                if (entity.StartsWith("E")) { entityDict.Add(entity+"a", new Enemy(entity, new Vector2(32, 32), new Point(64, 64))); continue; }
+                if (entity.StartsWith("E")) { entityDict.Add(entity, new Enemy(entity + "a", new Vector2(32, 32), new Point(64, 64))); continue; }
                 if (entity.StartsWith("I")) { entityDict.Add(entity, new Item("I84a", new Vector2(32, 32), new Point(64, 64))); continue; }
                 if (entity.StartsWith("0")) { entityDict.Add(entity, new Space(entity, new Vector2(32, 32), new Point(64, 64))); continue; }
                 if (entity.StartsWith("A")) { entityDict.Add(entity, new Item("I84a", new Vector2(32, 32), new Point(64, 64))); continue; }
                 if (entity.StartsWith("C")) { entityDict.Add(entity, new Item("I84a", new Vector2(32, 32), new Point(64, 64))); continue; }
-                if (entity.StartsWith("D")) { entityDict.Add(entity + "a", new Enemy(entity, new Vector2(32, 32), new Point(64, 64))); continue; }
+                if (entity.StartsWith("D")) { entityDict.Add(entity, new Enemy(entity + "a", new Vector2(32, 32), new Point(64, 64))); continue; }
             }
 
         }
@@ -77,7 +77,7 @@ namespace GroupGame10.GameSystem
                     }
                     if (s.StartsWith("C"))
                     {
-                        work = (BaseEntity)entityDict["S384"].Clone();
+                        work = (BaseEntity)entityDict["S386"].Clone();
                         work.Position = (new Vector2(colCnt * work.Size.X + 32, lineCnt * work.Size.Y + 32));
                         workList.Add(work);
                     }
@@ -88,6 +88,12 @@ namespace GroupGame10.GameSystem
                         workList.Add(work);
                     }
                     if (s.StartsWith("I"))
+                    {
+                        work = (BaseEntity)entityDict["0"].Clone();
+                        work.Position = (new Vector2(colCnt * work.Size.X + 32, lineCnt * work.Size.Y + 32));
+                        workList.Add(work);
+                    }
+                    if (s.StartsWith("E"))
                     {
                         work = (BaseEntity)entityDict["0"].Clone();
                         work.Position = (new Vector2(colCnt * work.Size.X + 32, lineCnt * work.Size.Y + 32));

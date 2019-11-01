@@ -42,6 +42,15 @@ namespace GroupGame10.GameSystem
             
             if(mapList != null)
             {
+                foreach (var list in MapList)
+                {
+                    foreach (var a in list)
+                    {
+                        if (a is Space) continue;
+                        a.Update(gameTime);
+                    }
+                }
+
                 foreach (var list in mapList)
                 {
                     foreach (var c in list)
