@@ -10,10 +10,10 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GroupGame10
 {
-    class Player : BaseEntity
+    class Player_Title : BaseEntity
     {
 
-        enum State { Dive, Rise, Air, Surface ,Water}
+        enum State { Dive, Rise, Air, Surface, Water }
         State currentState = State.Air;
         Vector2 _velocity;
         float rotation;
@@ -23,14 +23,16 @@ namespace GroupGame10
         int numObservers = 0;
         string currCenter;
         string preCenter;
-        bool isClear=false;
-        int current=0;
+        bool isClear = false;
+        bool turn = false;
+        int current = 0;
         string _name;
-        public Player()
+        int currentMove=0;
+        public Player_Title()
         {
-            
+
             _name = "player";
-                Name = "player0";
+            Name = "player0";
             Size = new Point(48, 48);
             Position = new Vector2(256, 300);
             _velocity = new Vector2(8, 0);
@@ -59,49 +61,54 @@ namespace GroupGame10
         }
 
         public bool IsClear { get => isClear; set => isClear = value; }
+        public bool Turn { get => turn; set => turn = value; }
 
         public override void Inilized()
         {
-            observers.ForEach(ob => ob.OnNotify("begin"));
+            
         }
 
         public override void Update(GameTime gameTime)
         {
             current++;
-            
+
             if (current >= 420)
             {
-              
+
                 current = 0;
             }
             Name = _name + (current % 20).ToString();
-            if (position.X > 100 * 64) { observers.ForEach(ob => ob.OnNotify("clear")); IsClear = true;IsDeadFlag = true; }
-
-            if (preCenter != currCenter &&currentState!=State.Rise &&currCenter == "S386")
+            if (Rectangle.Center.Y > 64 * 6) currCenter = "water";
+            else currCenter = "air";
+            if (preCenter == "air" && currCenter == "water")
             {
                 currentState = State.Surface;
                 observers.ForEach(ob => ob.OnNotify("IntoWater",position));
             }
-            if (currentState != State.Rise && currCenter == "S417") currentState = State.Water;
-            if (Input.IsKeyUp(Keys.Space)) currentState = State.Rise;
-            if (currCenter != "S417"&& currCenter != "S386") currentState = State.Air;
-            if (Input.GetKeyState(Keys.Space))
+            if (preCenter == "water" && currCenter == "air") currentState = State.Air;
+
+            currentMove++;
+            if (currentMove >= 200)
             {
                 currentState = State.Dive;
+                if (currentMove >= 300)
+                {
+                    currentState = State.Rise;
+                    currentMove = 0;
+                }
             }
-
-
+            
             switch (currentState)
             {
                 case State.Dive:
                     velocity.Y = (velocity.Y < 0 ? 0 : velocity.Y);
-                    velocity.Y +=1f * b;
+                    velocity.Y += 1f * b;
                     break;
                 case State.Rise:
                     velocity.Y = (velocity.Y > -10 ? -10 : velocity.Y);
                     velocity.Y -= 1f * b;
 
-                   
+
                     break;
                 case State.Air:
 
@@ -118,6 +125,8 @@ namespace GroupGame10
             }
             velocity.Y = (velocity.Y < -20 ? -20 : velocity.Y);
             Rotation = (float)Math.Atan2((double)velocity.Y, (double)velocity.X) / 2;
+            if(turn) Rotation = (float)Math.Atan2((double)velocity.Y, (double)-velocity.X) / 2;
+            if (position.X > 1200 || position.X < -100) { Turn = !Turn; velocity.X = -velocity.X; }
             Position += velocity;
             preCenter = currCenter;
 
@@ -128,54 +137,7 @@ namespace GroupGame10
         {
             return new Vector2(Position.X + Size.X / 2, Position.Y + Size.Y / 2);
         }
-        public override void Hit(BaseEntity other)
-        {
-            switch (other)
-            {
-                case Block a:
-                    if (Math.Abs((a.Rectangle.Center.ToVector2() - Rectangle.Center.ToVector2()).Length()) < 48)
-                    {
-                        observers.ForEach(ob => ob.OnNotify("dead"));
-                        IsDeadFlag = true;
-                    }
 
-                    break;
-                case Enemy b:
-                    b.Hit(this);
-                    if (Math.Abs((b.Rectangle.Center.ToVector2() - Rectangle.Center.ToVector2()).Length()) < 48)
-                    {
-                        observers.ForEach(ob => ob.OnNotify("dead"));
-                        IsDeadFlag = true;
-                    }
-                    return;
-                    
-                case Item c:
-                    if (!c.IsMove)
-                    {
-                        c.Hit(this);
-                        observers.ForEach(ob => ob.OnNotify("GetCoin"));
-                    }
-                    return;
-                   
-                case Sea d:
-                    d.Hit(this);
-                    break;
-                case Space e:
-                    break;
-                default:
-                    return;
-
-            }
-            var rec = other.Rectangle;
-            var _rec = new Rectangle(rec.Left, rec.Center.Y-24, 64, 48);
-            if (_rec.Intersects(new Rectangle(Position.ToPoint(),new Point(1,1)))) currCenter = other.Name;
-          
-
-        }
-        private void HitBlock(Block block)
-        {
-
-        }
         public void AddObserver(IObserver ob)
         {
             if (observers.Contains(ob)) return;
@@ -190,7 +152,9 @@ namespace GroupGame10
             numObservers--;
         }
 
-
-
+        public override void Hit(BaseEntity other)
+        {
+           
+        }
     }
 }

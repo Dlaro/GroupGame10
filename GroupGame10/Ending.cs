@@ -29,7 +29,7 @@ namespace GroupGame10
         {
             IsEndFlag = false;
             Read("rank.csv");
-            total = uIManager.Total;
+            total = 208;
             for (int i = stringData.Count() - 1; i >= 0; i--)
             {
                 var num = Int32.Parse(stringData[i][1]);
@@ -81,7 +81,7 @@ namespace GroupGame10
             }
             else
             {
-                renderManager.UIEntities.Add(new UIEntity("arr", new Vector2(380, 64 *rank + 288)));
+                renderManager.UIEntities.Add(new UIEntity("arr", new Vector2(380, 20*rank + 280)));
             }
 
 

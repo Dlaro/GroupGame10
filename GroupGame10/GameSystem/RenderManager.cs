@@ -18,22 +18,28 @@ namespace GroupGame10.GameSystem
         private List<List<BaseEntity>> mapList;
         private List<BackGround> backGrounds;
         private List<UIEntity> _UIEntities;
+        private List<BaseEntity> effects;
+
+        List<StructParticle> players;
         private Game game;
         private SpriteBatch spriteBatch;
         private Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
         private ContentManager contentManager;
         Player player;
+        Player_Title player_;
         Camera camera2D;
-
+        int current = 0;
         internal List<BaseEntity> Entities { get => entities; set => entities = value; }
         internal List<List<BaseEntity>> MapList { get => mapList; set => mapList = value; }
         internal List<BackGround> BackGrounds { get => backGrounds; set => backGrounds = value; }
         internal List<UIEntity> UIEntities { get => _UIEntities; set => _UIEntities = value; }
+        internal List<BaseEntity> Effects { get => effects; set => effects = value; }
 
         public RenderManager(Game game) : base(game)
         {
             Entities = new List<BaseEntity>();
             UIEntities = new List<UIEntity>();
+            effects = new List<BaseEntity>();
             this.game = game;
             contentManager = game.Content;
             spriteBatch = new SpriteBatch(game.GraphicsDevice);
@@ -42,6 +48,8 @@ namespace GroupGame10.GameSystem
             game.Components.Add(camera2D);
             BackGrounds = new List<BackGround>();
             MapList = new List<List<BaseEntity>>();
+
+            players = new List<StructParticle>();
 
         }
         public override void Initialize()
@@ -62,7 +70,31 @@ namespace GroupGame10.GameSystem
         {
 
             if (!(BackGrounds is null)) BackGrounds.ForEach(bg => bg.Update(gameTime));
-           
+            if (effects != null) effects.ForEach(e => e.Update(gameTime));
+           effects.RemoveAll(e => e.IsDeadFlag);
+            if (player_ != null )
+            {
+                current++;
+                if (current > 5)
+                {
+                    players.Add(new StructParticle(player_.Position));
+                    current = 0;
+                }
+                players.ForEach(pos => pos.Update());
+            }
+            if (player!= null)
+            {
+                current++;
+                if (current > 5)
+                {
+                    players.Add(new StructParticle(player.Position));
+                    current = 0;
+                }
+                players.ForEach(pos => pos.Update());
+            }
+
+
+            players.RemoveAll(pos => pos.IsDead);
             base.Update(gameTime);
         }
         public override void Draw(GameTime gameTime)
@@ -80,6 +112,15 @@ namespace GroupGame10.GameSystem
                     DrawTextureWithCamera(a.Name, a.Rectangle);
                 }
             }
+            if (!(effects is null))
+            {
+                foreach (var e in effects)
+                {
+
+                    if (e.IsDeadFlag) continue;
+                    DrawTextureWithCamera(e.Name, e.Rectangle);
+                }
+            }
             if (!(Entities is null))
             {
                 foreach (var e in Entities)
@@ -89,7 +130,18 @@ namespace GroupGame10.GameSystem
                     DrawTextureWithCamera(e.Name, e.Rectangle);
                 }
             }
-            if (!(player is null)) spriteBatch.Draw(textures["player"], destinationRectangle: new Rectangle((int)(player.Rectangle.X), player.Rectangle.Y, 64, 64), origin: new Vector2(64, 64), rotation: player.Rotation);
+            if(players !=null) foreach(var p in players)
+                {
+                    spriteBatch.Draw(textures["white"], new Rectangle(p.Position.ToPoint(), p.Size), Color.White);
+                }
+            if (!(player is null)) spriteBatch.Draw(textures[player.Name], destinationRectangle: new Rectangle((int)(player.Rectangle.X), player.Rectangle.Y, 64, 64), origin: new Vector2(64, 64), rotation: player.Rotation);
+            if (!(player_ is null))
+            {
+                if(player_.Turn) spriteBatch.Draw(textures[player_.Name], destinationRectangle: new Rectangle((int)(player_.Rectangle.X), 
+                    player_.Rectangle.Y, 64, 64), origin: new Vector2(64, 64), rotation: -player_.Rotation, effects:SpriteEffects.FlipHorizontally);
+                else spriteBatch.Draw(textures[player_.Name], destinationRectangle: new Rectangle((int)(player_.Rectangle.X),
+                    player_.Rectangle.Y, 64, 64), origin: new Vector2(64, 64), rotation: player_.Rotation);
+            }
             spriteBatch.End();
 
             spriteBatch.Begin(blendState: BlendState.AlphaBlend);
@@ -134,10 +186,11 @@ namespace GroupGame10.GameSystem
             }
         }
 
-    
+
         public void Add(BaseEntity entity)
         {
             if (entity is Player) { player = (Player)entity; player.AddObserver(camera2D); camera2D.GetPlayer(player); return; }
+            if (entity is Player_Title) { player_ = (Player_Title)entity; return; }
             Entities.Add(entity);
         }
         public void LoadContent(string assetName, string filepath = "./")
@@ -272,12 +325,12 @@ namespace GroupGame10.GameSystem
         /// <param name="number">表示したい整数値</param>
         /// <param name="alpha">透明値</param>
         public void DrawNumber(
-           
+
             Vector2 position,
             int number,
             float alpha = 1.0f)
         {
-         
+
             //マイナスの数は0
             if (number < 0)
             {
@@ -294,7 +347,7 @@ namespace GroupGame10.GameSystem
                 spriteBatch.Draw(
                     textures[n.ToString()],
                     position,
-                   
+
                     Color.White);
 
                 //1文字描画したら1桁分右にずらす
@@ -382,11 +435,13 @@ namespace GroupGame10.GameSystem
 
         public void ClearList()
         {
-
+            players.Clear();
+            effects.Clear();
             Entities.Clear();
             UIEntities.Clear();
             MapList = new List<List<BaseEntity>>();
             player = null;
+            player_ = null;
         }
 
 

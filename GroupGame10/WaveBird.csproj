@@ -45,11 +45,12 @@
     <Compile Include="Base\BaseScene.cs" />
     <Compile Include="Base\IObserver.cs" />
     <Compile Include="Base\Screen.cs" />
-    <Compile Include="BackGruond.cs" />
+    <Compile Include="Base\BackGruond.cs" />
     <Compile Include="Base\Block.cs" />
     <Compile Include="Base\Space.cs" />
     <Compile Include="Base\UIEntity.cs" />
     <Compile Include="Block_Move.cs" />
+    <Compile Include="Coin_Move.cs" />
     <Compile Include="GameSystem\Camera.cs" />
     <Compile Include="GameSystem\SoundManager.cs" />
     <Compile Include="Ending.cs" />
@@ -63,7 +64,9 @@
     <Compile Include="GameSystem\UIManager.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Base\Item.cs" />
+    <Compile Include="IntoWater.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="Player_TItle.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GameSystem\ScenceManager.cs" />

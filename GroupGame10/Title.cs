@@ -11,16 +11,19 @@ namespace GroupGame10
     class Title : BaseScene
     {
         UIEntity title,start;
-        
+        Player_Title player_;
         public Title(Game game)
         {
-
+            player_ = new Player_Title();
+            player_.AddObserver((IObserver)game.Components.First(com => com is SoundManager));
+            player_.AddObserver((IObserver)game.Components.First(com => com is UIManager));
         }
 
         public override void Draw(RenderManager renderManager)
         {
             renderManager.UIEntities.Add(title);
             renderManager.UIEntities.Add(start);
+            renderManager.Add(player_);
         }
 
         public override void Inilized()
@@ -40,6 +43,7 @@ namespace GroupGame10
         public override void Physics(PhysicsManager physicsManager)
         {
 
+            physicsManager.Add(player_);
         }
     }
 }

@@ -60,13 +60,15 @@ namespace GroupGame10
             Components.Add(mapManager);
 
             spriteManager = new PhysicsManager(this);
-            Components.Add(spriteManager); 
-            
-            scenceManager = new ScenceManager(this);
-            Components.Add(scenceManager);
+            Components.Add(spriteManager);
 
             soundManager = new SoundManager(this);
             Components.Add(soundManager);
+
+            scenceManager = new ScenceManager(this);
+            Components.Add(scenceManager);
+
+
 
             // この上にロジックを記述
             base.Initialize();// 親クラスの初期化処理呼び出し。絶対に消すな！！
@@ -102,6 +104,7 @@ namespace GroupGame10
             soundManager.ChangeBGMLoopFlag(true);
             soundManager.PlayBGM("gamebgm");
             // この上にロジックを記述
+            scenceManager.NextScene(Scecne.Title);
         }
 
         /// <summary>

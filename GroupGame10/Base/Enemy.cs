@@ -52,8 +52,23 @@ namespace GroupGame10
                 }
                 else if (Name.EndsWith("b"))
                 {
-                    Name = Name.Replace("b", "a");
+                    Name = Name.Replace("b", "c");
                     
+                }
+                else if (Name.EndsWith("c"))
+                {
+                    Name = Name.Replace("c", "d");
+
+                }
+                else if (Name.EndsWith("d"))
+                {
+                    Name = Name.Replace("d", "e");
+
+                }
+                else if (Name.EndsWith("e"))
+                {
+                    Name = Name.Replace("e", "a");
+
                 }
                 current = 0;
             }

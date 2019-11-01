@@ -160,5 +160,10 @@ namespace GroupGame10.GameSystem
         {
             this.player = player;
         }
+
+        public void OnNotify(string file, Vector2 position)
+        {
+            if (file == "dead") DoShake();
+        }
     }
 }

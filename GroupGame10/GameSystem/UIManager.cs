@@ -100,5 +100,43 @@ namespace GroupGame10.GameSystem
                     break;
             }
         }
+
+        public void OnNotify(string file, Vector2 position)
+        {
+            switch (file)
+            {
+                case "IntoWater":
+                    renderManager.Effects.Add((BaseEntity)new IntoWater(position));
+                    break;
+                        
+                case "begin":
+                    renderManager.UIEntities.Add(score);
+                    renderManager.UIEntities.Add(coin);
+                    renderManager.UIEntities.Add(xx);
+
+
+                    break;
+
+                case "dead":
+
+                    IsShaking = true;
+                    current = 0;
+                    sum = 0;
+                    break;
+                case "clear":
+                    renderManager.UIEntities.Add(gameclear);
+                    total += sum;
+                    sum = 0;
+                    break;
+                case "GetCoin":
+                    sum++;
+                    break;
+                case "GetEnemy":
+                    sum++;
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

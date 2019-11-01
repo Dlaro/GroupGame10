@@ -25,7 +25,27 @@ namespace GroupGame10
         public static readonly int MaxScene = 10;//scene合計
         public static readonly string[] TexturesLoad =
             {
-            "player",
+            "player0",
+            "player1",
+            "player2",
+            "player3",
+            "player4",
+            "player5",
+            "player6",
+            "player7",
+            "player8",
+            "player9",
+            "player10",
+            "player11",
+            "player12",
+            "player13",
+            "player14",
+            "player15",
+            "player16",
+            "player17",
+            "player18",
+            "player19",
+            "player20",            
             "block",
             "enemy",
             "item",
@@ -40,10 +60,16 @@ namespace GroupGame10
              "S417",
              "E88a",
              "E88b",
+             "E88c",
+             "E88d",
+             "E88e",
              "A394",
              "C270",
              "D181a",
              "D181b",
+             "D181c",
+             "D181d",
+             "D181e",
              "I84",
              "I84a",
              "I84b",
@@ -78,7 +104,19 @@ namespace GroupGame10
              "F7",
              "F8",
              "arr",
-             "point"
+             "point",
+             "white",
+             "water0",
+             "water1",
+                "water2",
+                "water3",
+                "water4",
+                "water5",
+                "water6",
+
+                "water7",
+                "water8"
+
         };
         public static readonly string[] MapLoad =
             {

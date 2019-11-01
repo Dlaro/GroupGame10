@@ -238,7 +238,31 @@ namespace GroupGame10.GameSystem
                     break;
             }
         }
-        
+
+        public void OnNotify(string file, Vector2 position)
+        {
+            switch (file)
+            {
+                case "IntoWater":
+                    PlaySE("water");
+                    break;
+                case "GetCoin":
+                    PlaySE("coin");
+                    break;
+                case "GetEnemy":
+                    PlaySE("coin");
+                    break;
+                case "dead":
+                    PlaySE("dead");
+                    isGameOver = true;
+                    break;
+                case "clear":
+                    PlaySE("clear");
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
 

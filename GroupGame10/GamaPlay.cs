@@ -27,8 +27,9 @@ namespace GroupGame10
             IsClear = false;
       
             IsEndFlag = false;
-            player = new Player();
+            
             IsPlayer = true;
+            player = new Player();
             player.AddObserver((IObserver)game.Components.First(com=>com is SoundManager));
             player.AddObserver((IObserver)game.Components.First(com => com is UIManager));
            

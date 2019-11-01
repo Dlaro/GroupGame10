@@ -11,6 +11,12 @@ namespace GroupGame10
     class Item : BaseEntity,ICloneable
     {
         int current = 0;
+        bool isMove=false;
+        Vector2 target;
+        BaseEntity other;
+
+        public bool IsMove { get => isMove; set => isMove = value; }
+
         public Item(string name,Vector2 position ,Point size)
         {
             Size = size;
@@ -61,11 +67,25 @@ namespace GroupGame10
                 }
               
             }
+            if (IsMove)
+            {
+                target = new Vector2(other.Position.X-120, 0);
+                if (target.X > 92 * 64 - 7 * 64) target.X = 92 * 64 - 7 * 64;
+                velocity =(target - Position);
+                Position += velocity / 10f;
+                if (Position.Y<64&&Position.X<target.X) IsDeadFlag = true;
+                if (current >= 4)
+                {
+                    Size = new Point((int)(Size.X *0.8));
+                }
 
+            }
         }
         public override void Hit(BaseEntity other)
         {
-            IsDeadFlag = true;
+            IsMove = true;
+            velocity = new Vector2(1, -1);
+            this.other = other;
         }
     }
 }

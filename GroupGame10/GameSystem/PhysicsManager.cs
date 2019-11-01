@@ -25,12 +25,13 @@ namespace GroupGame10.GameSystem
             entities = new List<BaseEntity>();
             MapList = new List<List<BaseEntity>>();
             player = null;
-            
+         
             base.Initialize();
         }
 
         public override void Update(GameTime gameTime)
         {
+
             if (player != null)
             {
                 if (player.IsDeadFlag)
@@ -38,6 +39,7 @@ namespace GroupGame10.GameSystem
                     Enabled = false;
                     return;
                 }
+                
             }
             
             if(mapList != null)
@@ -71,8 +73,9 @@ namespace GroupGame10.GameSystem
 
         public void Add(BaseEntity entity)
         {
-            entities.Add(entity);
             if (entity is Player) player =(Player) entity;
+            entities.Add(entity);
+            
         }
 
 

@@ -20,6 +20,7 @@ namespace GroupGame10.GameSystem
         private MapManager mapManager;
         private PhysicsManager physicsManager;
         private UIManager uIManager;
+        private SoundManager soundManager;
         private Scecne curr;
         private Camera camera;
         int currentCamera = 0, currentKye = 0;
@@ -32,6 +33,7 @@ namespace GroupGame10.GameSystem
             mapManager = (MapManager)game.Components.First(b => b is MapManager);
             physicsManager = (PhysicsManager)game.Components.First(b => b is PhysicsManager);
             uIManager = (UIManager)game.Components.First(b => b is UIManager);
+            soundManager = (SoundManager)game.Components.First(b => b is SoundManager);
             camera = (Camera)game.Components.First(b => b is Camera);
             scences.Add(Scecne.Title, new Title(game));
             scences.Add(Scecne.Ending, new Ending(game));
@@ -47,7 +49,7 @@ namespace GroupGame10.GameSystem
         }
         public override void Initialize()
         {
-            NextScene(Scecne.Title);
+            
 
             base.Initialize();
         }
@@ -133,16 +135,18 @@ namespace GroupGame10.GameSystem
             {
                 renderManager.SetMap( mapManager.GetMap(CurrentSence.Name + ".csv"));
                 physicsManager.MapList = renderManager.MapList;
-                CurrentSence.Physics(physicsManager);
+               
                 physicsManager.Enabled = false;
                 renderManager.UIEntities.Add(new UIEntity("F" + (int)curr, Vector2.Zero));
             }
+            CurrentSence.Physics(physicsManager);
             CurrentSence.Draw(renderManager);
 
         }
 
         private void CameraDown()
         {
+            soundManager.PlaySE("water");
             camera.Focus = new Vector2(512, 960);
             currentCamera = 0;
             isChanging = true;

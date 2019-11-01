@@ -10,5 +10,6 @@ namespace GroupGame10.Base
     interface IObserver
     {
         void OnNotify( string file);
+        void OnNotify(string file,Vector2 position);
     }
 }
